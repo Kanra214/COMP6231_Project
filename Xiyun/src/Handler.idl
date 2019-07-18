@@ -1,0 +1,19 @@
+module MyApp{
+	interface Handler{
+		string addEvent(in string id, in string eid, in string et, in long capacity);
+		string removeEvent(in string id, in string eid, in string et);
+		string listEventAvailability(in string id, in string et);
+		string bookEvent(in string cid, in string mid, in string eventId, in string et);
+		string cancelEvent(in string cid, in string mid, in string eventId, in string et);
+		string getBookingSchedule(in string id, in string mid);
+		string authenEntry(in string id, in string req);
+		string getRequestList(in string id);
+		string signup(in string id);
+		string login(in string id);
+		string swapEvent(in string cid, in string mid, in string neid, in string net, in string oeid, in string oet);
+		oneway void shutdown();
+
+
+
+	};
+};
