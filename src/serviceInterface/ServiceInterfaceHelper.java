@@ -5,7 +5,7 @@ package serviceInterface;
 * serviceInterface/ServiceInterfaceHelper.java .
 * 由IDL-to-Java 编译器 (可移植), 版本 "3.2"生成
 * 从serviceInterface.idl
-* 2019年7月5日 星期五 下午09时27分59秒 EDT
+* 2019年7月17日 星期三 下午06时36分03秒 EDT
 */
 
 abstract public class ServiceInterfaceHelper
