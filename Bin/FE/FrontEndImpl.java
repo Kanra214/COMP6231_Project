@@ -93,6 +93,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
             sendRequest(sb.append("ClientId:")
                 .append("bookEvent")
+                .append(" ")
                 .append(customerID)
                 .append(" ")
                 .append(eventID)
@@ -228,7 +229,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
                 socket.send(packet);
             } else {
                 InetAddress address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM3address);
-                DatagramPacket packet = new DatagramPacket(data, 0, data.length,address,6004 );
+                DatagramPacket packet = new DatagramPacket(data, 0, data.length,address,6003 );
                 socket.send(packet);
             }
         } catch (SocketException e) {
@@ -242,11 +243,27 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
         socket.close();
     }
+    private String registerListener(DatagramSocket socket) {
+        byte[] data = new byte[1024];
+        DatagramPacket packet = new DatagramPacket(data, data.length);
+        try {
+            socket.receive(packet);
+            String result = new String(packet.getData(), 0 , packet.getLength());
+
+            System.out.println("receive " + result);
+            return result;
+
+
+        } catch (SocketException e){
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     enum Failure {
         SoftWareFailure,
         ServerCrash,
-        BackUp,
     }
 
 }
