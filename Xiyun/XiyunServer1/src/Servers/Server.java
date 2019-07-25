@@ -1,6 +1,4 @@
 package Servers;
-import Common.Requests;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -155,76 +153,77 @@ public class Server {
 
 
 
-
-    public MyJsonObject createClient(String id){
-        Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
-        o.setRequest(Requests.CreateClient);
-        o.setClientId(id);
+    public void createClient(String id){
+//    public MyJsonObject createClient(String id){
+//        Date date = new Date();
+//        MyJsonObject o = new MyJsonObject();
+//        o.setRequest(Requests.CreateClient);
+//        o.setClientId(id);
         Client c;
         synchronized (clientList) {
 
             if (!clientList.containsKey(id)) {
                 c = new Client(id);
                 clientList.put(id, c);
-                o.setResponse("New client is created, id = " + id + ".");
-                o.setApproved(true);
-
-
-            } else {
-                c = clientList.get(id);
-                o.setResponse("Client( id = " + id + ") has been used, please try another id.");
-                o.setApproved(false);
+//                o.setResponse("New client is created, id = " + id + ".");
+//                o.setApproved(true);
 
 
             }
-            logAction(date, o, false, true);
-
-            return o;
+//            else {
+//                c = clientList.get(id);
+//                o.setResponse("Client( id = " + id + ") has been used, please try another id.");
+//                o.setApproved(false);
+//
+//
+//            }
+//            logAction(date, o, false, true);
+//
+//            return o;
         }
 
     }
 
-    public MyJsonObject login(String id){
-        MyJsonObject o = new MyJsonObject();
-        synchronized (clientList) {
-            if (!clientList.containsKey(id)) {
-                o.setResponse("Unknown id. You can either try another id or create a new id.");
-                o.setApproved(false);
-            } else {
-
-                o.setResponse("Id recognized, please go ahead to perform operations.");
-                o.setApproved(true);
-
-
-            }
-            return o;
-        }
-    }
-
-
-    public Requests[] getRequestList(String id){
-        Requests[] re;
-        if(isManager(id)) {
-            re = new Requests[7];
-            re[0] = BookEvent;
-            re[1] = CancelEvent;
-            re[2] = SwapEvent;
-            re[3] = GetBookingSchedule;
-            re[4] = AddEvent;
-            re[5] = RemoveEvent;
-            re[6] = ListEventAvailability;
-        }else {
-            re = new Requests[4];
-            re[0] = BookEvent;
-            re[1] = CancelEvent;
-            re[2] = SwapEvent;
-            re[3] = GetBookingSchedule;
-        }
+//    public MyJsonObject login(String id){
+//        MyJsonObject o = new MyJsonObject();
+//        synchronized (clientList) {
+//            if (!clientList.containsKey(id)) {
+//                o.setResponse("Unknown id. You can either try another id or create a new id.");
+//                o.setApproved(false);
+//            } else {
+//
+//                o.setResponse("Id recognized, please go ahead to perform operations.");
+//                o.setApproved(true);
+//
+//
+//            }
+//            return o;
+//        }
+//    }
 
 
-        return re;
-    }
+//    public Requests[] getRequestList(String id){
+//        Requests[] re;
+//        if(isManager(id)) {
+//            re = new Requests[7];
+//            re[0] = BookEvent;
+//            re[1] = CancelEvent;
+//            re[2] = SwapEvent;
+//            re[3] = GetBookingSchedule;
+//            re[4] = AddEvent;
+//            re[5] = RemoveEvent;
+//            re[6] = ListEventAvailability;
+//        }else {
+//            re = new Requests[4];
+//            re[0] = BookEvent;
+//            re[1] = CancelEvent;
+//            re[2] = SwapEvent;
+//            re[3] = GetBookingSchedule;
+//        }
+//
+//
+//        return re;
+//    }
 
 
 
@@ -268,54 +267,54 @@ public class Server {
     }
 
 
-    public MyJsonObject authenEntry(String id, Requests req){
-        MyJsonObject o = new MyJsonObject();
-        if(isManager(id)){
-            o.setApproved(true);
-            switch(req){
-                case BookEvent:
-                    o.setResponse("Please enter the id of which client you want him to be managed, event id and event type");
-                    break;
-                case CancelEvent:
-                    o.setResponse("Please enter the id of which client you want him to be managed, event id and event type");
-                    break;
-                case SwapEvent:
-                    o.setResponse("Please enter the id of which client you want him to be managed, new event id, new event type, old event id and old event type");
-                    break;
-                case GetBookingSchedule:
-                    o.setResponse("Please enter the id of which client you want the schedule from");
-                    break;
-                case AddEvent:
-                    o.setResponse("Please enter the event id, event type, and event capacity");
-                    break;
-                case RemoveEvent:
-                    o.setResponse("Please enter the event id and event type");
-                    break;
-                case ListEventAvailability:
-                    o.setResponse("Please enter the event type");
-                    break;
-
-            }
-        }
-        else{
-            o.setApproved(false);
-            switch(req){
-                case BookEvent:
-                    o.setResponse("Please enter the event id and event type");
-                    break;
-                case CancelEvent:
-                    o.setResponse("Please enter the event id and event type");
-                    break;
-                case GetBookingSchedule:
-                    break;
-                case SwapEvent:
-                    o.setResponse("Please enter the new event id, new event type, old event id and old event type");
-                    break;
-            }
-
-        }
-        return o;
-    }
+//    public MyJsonObject authenEntry(String id, Requests req){
+//        MyJsonObject o = new MyJsonObject();
+//        if(isManager(id)){
+//            o.setApproved(true);
+//            switch(req){
+//                case BookEvent:
+//                    o.setResponse("Please enter the id of which client you want him to be managed, event id and event type");
+//                    break;
+//                case CancelEvent:
+//                    o.setResponse("Please enter the id of which client you want him to be managed, event id and event type");
+//                    break;
+//                case SwapEvent:
+//                    o.setResponse("Please enter the id of which client you want him to be managed, new event id, new event type, old event id and old event type");
+//                    break;
+//                case GetBookingSchedule:
+//                    o.setResponse("Please enter the id of which client you want the schedule from");
+//                    break;
+//                case AddEvent:
+//                    o.setResponse("Please enter the event id, event type, and event capacity");
+//                    break;
+//                case RemoveEvent:
+//                    o.setResponse("Please enter the event id and event type");
+//                    break;
+//                case ListEventAvailability:
+//                    o.setResponse("Please enter the event type");
+//                    break;
+//
+//            }
+//        }
+//        else{
+//            o.setApproved(false);
+//            switch(req){
+//                case BookEvent:
+//                    o.setResponse("Please enter the event id and event type");
+//                    break;
+//                case CancelEvent:
+//                    o.setResponse("Please enter the event id and event type");
+//                    break;
+//                case GetBookingSchedule:
+//                    break;
+//                case SwapEvent:
+//                    o.setResponse("Please enter the new event id, new event type, old event id and old event type");
+//                    break;
+//            }
+//
+//        }
+//        return o;
+//    }
 
 
     public MyJsonObject getBookingSchedule(String cid, String mid){
@@ -325,6 +324,13 @@ public class Server {
         o.setManagerId(mid);
         o.setRequest(GetBookingSchedule);
         Branch clientBranch = Branch.getBranchFromString(cid.substring(0,3));
+
+        if(!mid.equals("") ){
+            if(clientList.get(mid) == null){
+                createClient(mid);
+            }
+        }
+
         if(clientBranch != this.branch){//client is on another server
             System.out.println("Client is not in this server");
 //            o.setTargetServer(clientBranch);
@@ -336,13 +342,20 @@ public class Server {
             logAction(date, o, true, true);//manager has the copy
             return o;
         }
+
         System.out.println("Client should be in this server");
         Client client = clientList.get(cid);
         if(client == null){
-            o.setResponse("No such client");
-            o.setApproved(false);
+//            o.setResponse("No such client");
+//            o.setApproved(false);
+            createClient(cid);
+            client = clientList.get(cid);
         }
-        else {
+
+
+
+
+//        else {
             synchronized (client) {
                 String temp = "";
                 for (String et : client.eventList.keySet()) {
@@ -355,7 +368,7 @@ public class Server {
                 o.setApproved(true);
 
             }
-        }
+//        }
         logAction(date, o, true, true);
 
         return o;
@@ -372,6 +385,12 @@ public class Server {
         o.setEventType(eventType);
         o.setCapacity(capacity);
         o.setRequest(AddEvent);
+
+        if(clientList.get(id) == null){
+            createClient(id);
+        }
+
+
         if(!eventId.substring(0,3).equals(this.branch.name())){
             o.setResponse("Access denied");
             o.setApproved(false);
@@ -407,6 +426,12 @@ public class Server {
         o.setEventId(eventId);
         o.setEventType(eventType);
         o.setRequest(RemoveEvent);
+
+        if(clientList.get(id) == null){
+            createClient(id);
+        }
+
+
         if(!eventId.substring(0,3).equals(this.branch.name())){
             o.setResponse("Access denied");
             o.setApproved(false);
@@ -448,6 +473,11 @@ public class Server {
         Date date = new Date();
         MyJsonObject a = new MyJsonObject();
         MyJsonObject b = new MyJsonObject();
+
+        if(clientList.get(id) == null){
+            createClient(id);
+        }
+
         ArrayList<Branch> br = new ArrayList<>(Arrays.asList(Branch.values()));
         br.remove(this.branch);
         a.setTargetServer(br.remove(0));
@@ -481,6 +511,12 @@ public class Server {
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(CancelEvent);
+
+        if(!manId.equals("") ){
+            if(clientList.get(manId) == null){
+                createClient(manId);
+            }
+        }
         Branch clientBranch = Branch.getBranchFromString(id.substring(0,3));
         Branch eventBranch = Branch.getBranchFromString(eventId.substring(0,3));
         if(clientBranch != this.branch){//client is on another server
@@ -496,10 +532,12 @@ public class Server {
         System.out.println("Client should be in this server");
         Client client = clientList.get(id);
         if(client == null){
-            o.setResponse("No such client");
-            o.setApproved(false);
+            createClient(id);
+            client = clientList.get(id);
+//            o.setResponse("No such client");
+//            o.setApproved(false);
         }
-        else {
+//        else {
 
             String resCode = removeEventFromClient(eventBranch, client, o);
             o.setApproved(false);
@@ -525,7 +563,7 @@ public class Server {
 
 
 
-        }
+//        }
 
         logAction(date, o, true, eventBranch == this.branch);
         return o;
@@ -541,6 +579,12 @@ public class Server {
         o.setRequest(SwapEvent);
         o.setOldEventId(oeid);
         o.setOldEventType(oet);
+        if(!mid.equals("")){
+            if(clientList.get(mid) == null){
+                createClient(mid);
+            }
+        }
+
         Branch clientBranch = Branch.getBranchFromString(cid.substring(0,3));
         Branch newEventBranch = Branch.getBranchFromString(neid.substring(0,3));
         Branch oldEventBranch = Branch.getBranchFromString(oeid.substring(0,3));
@@ -559,10 +603,12 @@ public class Server {
         System.out.println("Client should be in this server");
         Client client = clientList.get(cid);
         if(client == null){
-            o.setResponse("No such client");
-            o.setApproved(false);
+//            o.setResponse("No such client");
+//            o.setApproved(false);
+            createClient(cid);
+            client = clientList.get(cid);
         }
-        else {
+//        else {
             synchronized(client) {
                 o.setEventId(neid);
                 o.setEventType(net);
@@ -622,7 +668,7 @@ public class Server {
 
 
 
-        }
+//        }
         o.setEventId(neid);
         o.setEventType(net);
         logAction(date, o, true,true);
@@ -649,12 +695,10 @@ public class Server {
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(BookEvent);
-            //1. client不在这个server，请求client server
-                //1. event不在这个server,
-                //2. event在这个server,
-            //2. client在这个server
-                //1. event不在这个server，请求event server，形成闭环
-                //2. event在这个server
+        if(!manId.equals("")){
+            createClient("manId");
+        }
+
         Branch clientBranch = Branch.getBranchFromString(id.substring(0,3));
         Branch eventBranch = Branch.getBranchFromString(eventId.substring(0,3));
         if(clientBranch != this.branch){//client is on another server
@@ -670,10 +714,12 @@ public class Server {
         System.out.println("Client should be in this server");
         Client client = clientList.get(id);
         if(client == null){
-            o.setResponse("No such client");
-            o.setApproved(false);
+//            o.setResponse("No such client");
+//            o.setApproved(false);
+            createClient(id);
+            client = clientList.get(id);
         }
-        else {
+//        else {
 
             String resCode = addEventToClient(eventBranch, client, o);
             o.setApproved(false);
@@ -702,7 +748,7 @@ public class Server {
 
 
 
-        }
+//        }
         logAction(date, o, true,eventBranch == this.branch);
 
         return o;

@@ -1,10 +1,7 @@
 package Server;
-
-
-import serviceInterface.ServiceInterfacePOA;
 import common.Log;
 
-public class Service extends  ServiceInterfacePOA {
+public class Service{
 
     private EventService eventService;
     private Log log;
@@ -13,7 +10,6 @@ public class Service extends  ServiceInterfacePOA {
         this.log = log;
     }
 
-    @Override
     public String addEvent(String eventID, String eventType, int bookingCapacity) {
         String[] param = new String[3];
         param[1] = eventID;
@@ -25,7 +21,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String removeEvent(String eventID, String eventType){
         String[] param = new String[3];
         param[1] = eventID;
@@ -38,7 +33,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String listEventAvailability(String eventType) {
         String[] param = new String[3];
         param[2] = eventType;
@@ -50,7 +44,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String bookEvent(String customerID, String eventID, String eventType){
         String[] param = new String[3];
         param[0] = customerID;
@@ -64,7 +57,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String getBookingSchedule(String customerID){
         String[] param = new String[3];
         param[0] = customerID;
@@ -77,7 +69,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String cancelEvent(String customerID, String eventID, String eventType){
         String[] param = new String[3];
         param[0] = customerID;
@@ -91,7 +82,6 @@ public class Service extends  ServiceInterfacePOA {
         return status;
     }
 
-    @Override
     public String swapEvent(String customerID, String newEventID, String newEventType,
         String oldEventID, String oldEventType) {
         String[] param = new String[5];
