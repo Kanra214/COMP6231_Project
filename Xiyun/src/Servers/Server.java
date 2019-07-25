@@ -1,10 +1,15 @@
 package Servers;
+import Common.Requests;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.*;
 
-import static Servers.Requests.*;
+import static Common.Requests.*;
 
 
 public class Server {
@@ -57,7 +62,12 @@ public class Server {
                     replyObj.setSourceServer(Branch.getBranchFromPort(request.getPort()));
                     replyObj.setTargetServer(null);
                     System.out.println("Replying request " + requestObj.getRequest().name() + " from branch " + Branch.getBranchFromPort(request.getPort()).name());
-                    System.out.println("Approved: " + replyObj.getApproved());
+                    if(replyObj.isApproved()) {
+                        System.out.println("Request is approved");
+                    }
+                    else{
+                        System.out.println("Request is denied");
+                    }
                     send(replyObj);
                     }
 
@@ -149,7 +159,7 @@ public class Server {
     public MyJsonObject createClient(String id){
         Date date = new Date();
         MyJsonObject o = new MyJsonObject();
-        o.setRequest(CreateClient);
+        o.setRequest(Requests.CreateClient);
         o.setClientId(id);
         Client c;
         synchronized (clientList) {
@@ -766,7 +776,7 @@ public class Server {
         Date date = new Date();
         byte[] bytes;
         HashMap<String, String> param = o.toHashMap();
-        bytes = MyJsonObject.hashToString(param).getBytes();
+        bytes = MyJsonObject.hashMapToString(param).getBytes();
         int toPort;
         if(o.getTargetServer() != null){//send request
             toPort = o.getTargetServer().getUdpReplyPort();
