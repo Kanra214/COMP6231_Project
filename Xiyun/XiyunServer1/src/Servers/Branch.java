@@ -1,23 +1,19 @@
 package Servers;
 public enum Branch {
-    TOR(7770, 7771, 1050),
-    MTL(8880,8881, 1050),
-    OTW(9990,9991, 1050);
+    TOR(7770, 7771),
+    MTL(8880,8881),
+    OTW(9990,9991);
 
     private int udpSendPort,udpReplyPort, orbPort;
-    Branch(int udpSendPort, int udpReplyPort, int orbPort){
+    Branch(int udpSendPort, int udpReplyPort){
         this.udpSendPort = udpSendPort;
         this.udpReplyPort = udpReplyPort;
-        this.orbPort = orbPort;
     }
     public int getUdpSendPort(){
         return udpSendPort;
     }
     public int getUdpReplyPort(){
         return udpReplyPort;
-    }
-    public int getOrbPort(){
-        return orbPort;
     }
     public static Branch getBranchFromString(String s){
         switch(s){
