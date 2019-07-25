@@ -245,13 +245,13 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
     private String registerListener(DatagramSocket socket) {
         byte[] data = new byte[1024];
+        String result = null;
         DatagramPacket packet = new DatagramPacket(data, data.length);
         try {
             socket.receive(packet);
-            String result = new String(packet.getData(), 0 , packet.getLength());
+            result = new String(packet.getData(), 0 , packet.getLength());
 
             System.out.println("receive " + result);
-            return result;
 
 
         } catch (SocketException e){
@@ -259,6 +259,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     enum Failure {

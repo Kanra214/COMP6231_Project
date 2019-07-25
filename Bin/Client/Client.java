@@ -1,17 +1,17 @@
 package Client;
 import common.CityToPort;
 import common.Log;
-import serviceInterface.ServiceInterface;
+import FrontEnd.FrontEndCorba;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-import serviceInterface.ServiceInterfaceHelper;
+import FrontEnd.FrontEndCorbaHelper;
 
 
 public class Client {
   protected String clientID;
   protected String city;
-  protected ServiceInterface service;
+  protected FrontEndCorba service;
   protected Log log;
   private String Identify;
   public Client(String[] information) {
@@ -36,8 +36,8 @@ public class Client {
           NamingContextExtHelper.narrow(objRef);
 
       // resolve the Object Reference in Naming
-      String name = Integer.toString(CityToPort.map.get(this.city));
-      this.service = ServiceInterfaceHelper.narrow(ncRef.resolve_str(name));
+      String name = "FrontEnd";
+      this.service = FrontEndCorbaHelper.narrow(ncRef.resolve_str(name));
     }
     catch (Exception e) {
       System.out.println("ERROR : " + e) ;
