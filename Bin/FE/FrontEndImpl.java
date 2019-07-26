@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import PortInformation.AddressInfo;
 import PortInformation.SequencerPort;
 import PortInformation.FEPort;
+import java.util.HashMap;
+import java.util.Map;
 import org.omg.CORBA.ORB;
 import Common.JsonObject;
 import Common.Requests;
@@ -16,6 +18,13 @@ import Common.Requests;
 
 public class FrontEndImpl extends FrontEndCorbaPOA{
     private ORB orb;
+    static public Map<String, String> portToReplicaManager = new HashMap<>();
+    //key RM portNumber, Value Number of Replicamanger
+    static {
+        portToReplicaManager.put("6001", "1");
+        portToReplicaManager.put("6002", "2");
+        portToReplicaManager.put("6003", "3");
+    }
 
     public void setORB(ORB orb_val) {
         orb = orb_val;
@@ -25,7 +34,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     public String addEvent(String ID, String eventID, String eventType, int bookingCapacity) {
         DatagramSocket socket = null;
         int count = 0;
-
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
             InetAddress addr = InetAddress.getLocalHost();
@@ -37,6 +46,13 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.AddEvent);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
+
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -46,6 +62,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     @Override
     public String removeEvent(String ID, String eventID, String eventType) {
         DatagramSocket socket = null;
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         int count = 0;
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -56,9 +73,18 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.RemoveEvent);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
 
         } catch (Exception e) {
 //            e.printStackTrace();
+        }
+        if (resultSet.size() < 3){
+//            tellRMCrash(resultSet);
         }
         return "removeEvent method";
     }
@@ -67,7 +93,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     public String listEventAvailability(String ID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         try {
             InetAddress addr = InetAddress.getLocalHost();
             JsonObject o = new JsonObject();
@@ -76,6 +102,13 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.ListEventAvailability);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
+
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -87,7 +120,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     public String bookEvent(String ID, String customerID, String eventID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
 
@@ -104,6 +137,13 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.BookEvent);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
+
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -114,8 +154,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     public String getBookingSchedule(String ID, String customerID) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
-
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
 
@@ -131,6 +170,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.GetBookingSchedule);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -141,8 +186,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     public String cancelEvent(String ID, String customerID, String eventID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
-
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
             InetAddress addr = InetAddress.getLocalHost();
@@ -158,6 +202,13 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setRequest(Requests.CancelEvent);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -168,10 +219,9 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     @Override
     public String swapEvent(String ID, String customerID, String newEventID, String newEventType,
         String oldEventID, String oldEventType) {
+        HashMap<String, JsonObject> resultSet = new HashMap<>();
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
-
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
             InetAddress addr = InetAddress.getLocalHost();
@@ -189,6 +239,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setOldEventType(oldEventType);
             o.setSourceIp(addr.getHostAddress());
             sendRequest(o.objectToString(o));
+            Timer timer = new Timer(socket,false);
+            Thread thread = new Thread(timer);
+            thread.start();
+            while(count < 3 && !timer.timeout) {
+                count = registerListener(socket, resultSet);
+            }
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -208,7 +264,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         socket.send(sendPacket);
 
     }
-//
+
 //    private void multicastCrashMsg(DatagramSocket socket, byte[] data){
 //        try {
 //            socket.send(packet(AddressInfo.ADDRESS_INFO.RM1address, data,Replica.REPLICA.replica1));
@@ -228,6 +284,29 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 //            e.printStackTrace();
 //        }
 //    }
+    private void tellRMCrash(Map<String, String> resultSet) {
+        if (!resultSet.containsKey("1")) {
+            String msg = "1 " + Failure.ServerCrash;
+            sendReq(msg);
+        } else if (!resultSet.containsKey("2")) {
+            String msg = "2 " + Failure.ServerCrash;
+            sendReq(msg);
+        } else if (!resultSet.containsKey("3")) {
+            String msg = "3 " + Failure.ServerCrash;
+            sendReq(msg);
+        }
+    }
+
+    private void sendReq(String msg) {
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            byte[] data = msg.getBytes();
+//            multicastCrashMsg(socket,data);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void sendToRM(String crashServerNum) {
         DatagramSocket socket = null;
         try {
@@ -260,15 +339,17 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
         socket.close();
     }
-    private String registerListener(DatagramSocket socket) {
+    private int registerListener(DatagramSocket socket, HashMap<String, JsonObject> resultSet) {
+        JsonObject o;
         byte[] data = new byte[1024];
-        String result = null;
+        String result;
         DatagramPacket packet = new DatagramPacket(data, data.length);
         try {
             socket.receive(packet);
             result = new String(packet.getData(), 0 , packet.getLength());
-
             System.out.println("receive " + result);
+            o = JsonObject.stringToObject(result);
+            resultSet.put(portToReplicaManager.get(o.getSourcePort()),o);
 
 
         } catch (SocketException e){
@@ -276,7 +357,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return resultSet.size();
     }
 
     enum Failure {
@@ -284,4 +365,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         ServerCrash,
     }
 
+
+    public enum Replica{
+        REPLICA;
+        public final int replica1 = 6001;
+        public final int replica2 = 6002;
+        public final int replica3 = 6003;
+        public final int replica4 = 6004;
+    }
 }
