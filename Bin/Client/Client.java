@@ -45,45 +45,45 @@ public class Client {
     }
   }
 
-  public String bookEvent(String customerID, String eventID, String eventType) {
+  public String bookEvent(String ID, String customerID, String eventID, String eventType) {
     String[] params = new String[3];
     params[0] = customerID;
     params[1] = eventID;
     params[2] = eventType;
     this.log.requestInfo("bookEvent", params);
     String status = null;
-    status= this.service.bookEvent(customerID,eventID,eventType);
+    status= this.service.bookEvent(ID, customerID,eventID,eventType);
     this.log.info("bookEvent", params,status);
 //    System.out.println(status);
     return status;
   }
 
-  public String getBookingSchedule(String customerID) {
+  public String getBookingSchedule(String ID, String customerID) {
     String[] params = new String[3];
     params[0] = customerID;
     this.log.requestInfo("getBookingSchedule", params);
     String status = null;
-    status = this.service.getBookingSchedule(customerID);
+    status = this.service.getBookingSchedule(ID, customerID);
     this.log.info("getBookingSchedule", params,status);
 //    System.out.println(status);
     return status;
   }
 
-  public String cancelEvent(String customerID, String eventID, String eventType) {
+  public String cancelEvent(String ID, String customerID, String eventID, String eventType) {
     String[] params = new String[3];
     params[0] = customerID;
     params[1] = eventID;
     params[2] = eventType;
     String status = null;
     log.requestInfo("cancelEvent",params);
-    status = this.service.cancelEvent(customerID,eventID,eventType);
+    status = this.service.cancelEvent(ID, customerID,eventID,eventType);
 
 //    System.out.println(status);
     log.info("cancelEvent",params,status);
     return status;
 
   }
-  public String swapEvent(String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
+  public String swapEvent(String ID, String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType) {
     String [] params = new String[5];
     params[0] = customerID;
     params[1] = newEventID;
@@ -91,7 +91,7 @@ public class Client {
     params[3] = oldEventID;
     params[4] = oldEventType;
     log.requestInfo("swapEvent", params);
-    String status = this.service.swapEvent(customerID, newEventID, newEventType, oldEventID, oldEventType);
+    String status = this.service.swapEvent(ID, customerID, newEventID, newEventType, oldEventID, oldEventType);
     log.info("swapEvent", params, status);
     System.out.println(status);
     return status;

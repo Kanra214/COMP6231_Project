@@ -5,7 +5,7 @@ package FrontEnd;
 * FrontEnd/FrontEndCorbaPOA.java .
 * 由IDL-to-Java 编译器 (可移植), 版本 "3.2"生成
 * 从FrontEndCorba.idl
-* 2019年7月20日 星期六 上午11时43分28秒 EDT
+* 2019年7月25日 星期四 下午06时44分52秒 EDT
 */
 
 public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
@@ -39,11 +39,12 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
     {
        case 0:  // FrontEnd/FrontEndCorba/addEvent
        {
+         String ID = in.read_string ();
          String eventID = in.read_string ();
          String eventType = in.read_string ();
          int bookingCapacity = in.read_long ();
          String $result = null;
-         $result = this.addEvent (eventID, eventType, bookingCapacity);
+         $result = this.addEvent (ID, eventID, eventType, bookingCapacity);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -51,10 +52,11 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 1:  // FrontEnd/FrontEndCorba/removeEvent
        {
+         String ID = in.read_string ();
          String eventID = in.read_string ();
          String eventType = in.read_string ();
          String $result = null;
-         $result = this.removeEvent (eventID, eventType);
+         $result = this.removeEvent (ID, eventID, eventType);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -62,9 +64,10 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 2:  // FrontEnd/FrontEndCorba/listEventAvailability
        {
+         String ID = in.read_string ();
          String eventType = in.read_string ();
          String $result = null;
-         $result = this.listEventAvailability (eventType);
+         $result = this.listEventAvailability (ID, eventType);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -72,11 +75,12 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 3:  // FrontEnd/FrontEndCorba/bookEvent
        {
+         String ID = in.read_string ();
          String customerID = in.read_string ();
          String eventID = in.read_string ();
          String eventType = in.read_string ();
          String $result = null;
-         $result = this.bookEvent (customerID, eventID, eventType);
+         $result = this.bookEvent (ID, customerID, eventID, eventType);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -84,9 +88,10 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 4:  // FrontEnd/FrontEndCorba/getBookingSchedule
        {
+         String ID = in.read_string ();
          String customerID = in.read_string ();
          String $result = null;
-         $result = this.getBookingSchedule (customerID);
+         $result = this.getBookingSchedule (ID, customerID);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -94,11 +99,12 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 5:  // FrontEnd/FrontEndCorba/cancelEvent
        {
+         String ID = in.read_string ();
          String customerID = in.read_string ();
          String eventID = in.read_string ();
          String eventType = in.read_string ();
          String $result = null;
-         $result = this.cancelEvent (customerID, eventID, eventType);
+         $result = this.cancelEvent (ID, customerID, eventID, eventType);
          out = $rh.createReply();
          out.write_string ($result);
          break;
@@ -106,13 +112,14 @@ public abstract class FrontEndCorbaPOA extends org.omg.PortableServer.Servant
 
        case 6:  // FrontEnd/FrontEndCorba/swapEvent
        {
+         String ID = in.read_string ();
          String customerID = in.read_string ();
          String newEventID = in.read_string ();
          String newEventType = in.read_string ();
          String oldEventID = in.read_string ();
          String oldEventType = in.read_string ();
          String $result = null;
-         $result = this.swapEvent (customerID, newEventID, newEventType, oldEventID, oldEventType);
+         $result = this.swapEvent (ID, customerID, newEventID, newEventType, oldEventID, oldEventType);
          out = $rh.createReply();
          out.write_string ($result);
          break;

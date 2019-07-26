@@ -175,13 +175,13 @@ public class ClientDriver {
         System.out.println("eventType(Conferences, Seminars, Trade Shows): ");
         String semester = this.scanner.nextLine();
         System.out.println();
-        return client.bookEvent(cutomerID, enentID, semester);
+        return client.bookEvent(client.clientID,cutomerID, enentID, semester);
     }
 
     private String getBookingSchedule(Client client) {
         System.out.println("input your parameter");
-        String studentID = getCutomerID(client);
-        return client.getBookingSchedule(studentID);
+        String customerID = getCutomerID(client);
+        return client.getBookingSchedule(client.clientID,customerID);
     }
 
     private String cancelEvent(Client client) {
@@ -192,7 +192,7 @@ public class ClientDriver {
         System.out.println();
         System.out.println("eventType :");
         String eventType = this.scanner.nextLine();
-        return client.cancelEvent(customerID, eventID,eventType);
+        return client.cancelEvent(client.clientID,customerID, eventID,eventType);
     }
 
     private String getCutomerID(Client client) {
@@ -217,7 +217,7 @@ public class ClientDriver {
         System.out.println();
         System.out.println("Capacity: ");
         int bookingCapacity = this.scanner.nextInt();
-        return eventManager.addEvent(eventID, eventType,bookingCapacity);
+        return eventManager.addEvent(eventManager.clientID, eventID, eventType,bookingCapacity);
     }
 
     private String removeEvent(EventManager eventManager) {
@@ -228,7 +228,7 @@ public class ClientDriver {
         System.out.println("eventType(Conferences, Seminars, Trade Shows): ");
         String eventType = this.scanner.nextLine();
         System.out.println();
-        return eventManager.removeEvent(eventID, eventType);
+        return eventManager.removeEvent(eventManager.clientID,eventID, eventType);
     }
 
     private String listCourseAvailability(EventManager eventManager) {
@@ -236,11 +236,11 @@ public class ClientDriver {
         System.out.println("eventType(Conferences, Seminars, Trade Shows): ");
         String eventType = this.scanner.nextLine();
         System.out.println();
-        return eventManager.listEventAvailability(eventType);
+        return eventManager.listEventAvailability(eventManager.clientID, eventType);
     }
     private String swapEvent(Client client) {
         System.out.println("input your parameter");
-        String cutomerID = getCutomerID(client);
+        String customerID = getCutomerID(client);
         System.out.println("newEventID: ");
         String newEventID = this.scanner.nextLine();
         System.out.println();
@@ -253,7 +253,7 @@ public class ClientDriver {
         System.out.println("oldEventType: ");
         String oldEventType = this.scanner.nextLine();
         System.out.println();
-        return client.swapEvent(cutomerID, newEventID, newEventType, oldEventID, oldEventType);
+        return client.swapEvent(client.clientID, customerID, newEventID, newEventType, oldEventID, oldEventType);
     }
 
     private void mainMenu() {

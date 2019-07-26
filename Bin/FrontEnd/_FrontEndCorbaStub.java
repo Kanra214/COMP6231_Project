@@ -5,17 +5,18 @@ package FrontEnd;
 * FrontEnd/_FrontEndCorbaStub.java .
 * 由IDL-to-Java 编译器 (可移植), 版本 "3.2"生成
 * 从FrontEndCorba.idl
-* 2019年7月20日 星期六 上午11时43分28秒 EDT
+* 2019年7月25日 星期四 下午06时44分52秒 EDT
 */
 
 public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implements FrontEnd.FrontEndCorba
 {
 
-  public String addEvent (String eventID, String eventType, int bookingCapacity)
+  public String addEvent (String ID, String eventID, String eventType, int bookingCapacity)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("addEvent", true);
+                $out.write_string (ID);
                 $out.write_string (eventID);
                 $out.write_string (eventType);
                 $out.write_long (bookingCapacity);
@@ -27,17 +28,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return addEvent (eventID, eventType, bookingCapacity        );
+                return addEvent (ID, eventID, eventType, bookingCapacity        );
             } finally {
                 _releaseReply ($in);
             }
   } // addEvent
 
-  public String removeEvent (String eventID, String eventType)
+  public String removeEvent (String ID, String eventID, String eventType)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("removeEvent", true);
+                $out.write_string (ID);
                 $out.write_string (eventID);
                 $out.write_string (eventType);
                 $in = _invoke ($out);
@@ -48,17 +50,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return removeEvent (eventID, eventType        );
+                return removeEvent (ID, eventID, eventType        );
             } finally {
                 _releaseReply ($in);
             }
   } // removeEvent
 
-  public String listEventAvailability (String eventType)
+  public String listEventAvailability (String ID, String eventType)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("listEventAvailability", true);
+                $out.write_string (ID);
                 $out.write_string (eventType);
                 $in = _invoke ($out);
                 String $result = $in.read_string ();
@@ -68,17 +71,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return listEventAvailability (eventType        );
+                return listEventAvailability (ID, eventType        );
             } finally {
                 _releaseReply ($in);
             }
   } // listEventAvailability
 
-  public String bookEvent (String customerID, String eventID, String eventType)
+  public String bookEvent (String ID, String customerID, String eventID, String eventType)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("bookEvent", true);
+                $out.write_string (ID);
                 $out.write_string (customerID);
                 $out.write_string (eventID);
                 $out.write_string (eventType);
@@ -90,17 +94,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return bookEvent (customerID, eventID, eventType        );
+                return bookEvent (ID, customerID, eventID, eventType        );
             } finally {
                 _releaseReply ($in);
             }
   } // bookEvent
 
-  public String getBookingSchedule (String customerID)
+  public String getBookingSchedule (String ID, String customerID)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("getBookingSchedule", true);
+                $out.write_string (ID);
                 $out.write_string (customerID);
                 $in = _invoke ($out);
                 String $result = $in.read_string ();
@@ -110,17 +115,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return getBookingSchedule (customerID        );
+                return getBookingSchedule (ID, customerID        );
             } finally {
                 _releaseReply ($in);
             }
   } // getBookingSchedule
 
-  public String cancelEvent (String customerID, String eventID, String eventType)
+  public String cancelEvent (String ID, String customerID, String eventID, String eventType)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("cancelEvent", true);
+                $out.write_string (ID);
                 $out.write_string (customerID);
                 $out.write_string (eventID);
                 $out.write_string (eventType);
@@ -132,17 +138,18 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return cancelEvent (customerID, eventID, eventType        );
+                return cancelEvent (ID, customerID, eventID, eventType        );
             } finally {
                 _releaseReply ($in);
             }
   } // cancelEvent
 
-  public String swapEvent (String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType)
+  public String swapEvent (String ID, String customerID, String newEventID, String newEventType, String oldEventID, String oldEventType)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("swapEvent", true);
+                $out.write_string (ID);
                 $out.write_string (customerID);
                 $out.write_string (newEventID);
                 $out.write_string (newEventType);
@@ -156,7 +163,7 @@ public class _FrontEndCorbaStub extends org.omg.CORBA.portable.ObjectImpl implem
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return swapEvent (customerID, newEventID, newEventType, oldEventID, oldEventType        );
+                return swapEvent (ID, customerID, newEventID, newEventType, oldEventID, oldEventType        );
             } finally {
                 _releaseReply ($in);
             }

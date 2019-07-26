@@ -10,6 +10,8 @@ import PortInformation.AddressInfo;
 import PortInformation.SequencerPort;
 import PortInformation.FEPort;
 import org.omg.CORBA.ORB;
+import Common.JsonObject;
+import Common.Requests;
 
 
 public class FrontEndImpl extends FrontEndCorbaPOA{
@@ -20,22 +22,21 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity) {
+    public String addEvent(String ID, String eventID, String eventType, int bookingCapacity) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
 
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
-
-            sendRequest(sb.append("ClientId:")
-                .append("addEvent")
-                .append(eventID)
-                .append(" ")
-                .append(eventType)
-                .append(" ")
-                .append(bookingCapacity).toString());
-
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            o.setManagerId(ID);
+            o.setEventId(eventID);
+            o.setEventType(eventType);
+            o.setCapacity(bookingCapacity);
+            o.setRequest(Requests.AddEvent);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -43,19 +44,18 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType) {
+    public String removeEvent(String ID, String eventID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
-
         try {
-            socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
-
-            sendRequest(sb.append("ClientId:")
-                .append("removeEvent")
-                .append(eventID)
-                .append(" ")
-                .append(eventType).toString());
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            o.setManagerId(ID);
+            o.setEventId(eventID);
+            o.setEventType(eventType);
+            o.setRequest(Requests.RemoveEvent);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -64,17 +64,18 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String listEventAvailability(String eventType) {
+    public String listEventAvailability(String ID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
 
         try {
-            socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
-
-            sendRequest(sb.append("ClientId:")
-                .append("listEventAvailability")
-                .append(eventType).toString());
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            o.setManagerId(ID);
+            o.setEventType(eventType);
+            o.setRequest(Requests.ListEventAvailability);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -83,23 +84,26 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String bookEvent(String customerID, String eventID, String eventType) {
+    public String bookEvent(String ID, String customerID, String eventID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
-        StringBuilder sb = new StringBuilder();
 
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
 
-            sendRequest(sb.append("ClientId:")
-                .append("bookEvent")
-                .append(" ")
-                .append(customerID)
-                .append(" ")
-                .append(eventID)
-                .append(" ")
-                .append(eventType).toString());
-
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            if (ID.substring(3,4).equals("M")) {
+                o.setManagerId(ID);
+            }else {
+                o.setClientId(ID);
+            }
+            o.setClientId(customerID);
+            o.setEventId(eventID);
+            o.setEventType(eventType);
+            o.setRequest(Requests.BookEvent);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -107,7 +111,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String getBookingSchedule(String customerID) {
+    public String getBookingSchedule(String ID, String customerID) {
         DatagramSocket socket = null;
         int count = 0;
         StringBuilder sb = new StringBuilder();
@@ -115,11 +119,18 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
 
-            sendRequest(sb.append("ClientId:")
-                .append("getBookingSchedule")
-                .append(" ")
-                .append(customerID).toString());
 
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            if (ID.substring(3,4).equals("M")) {
+                o.setManagerId(ID);
+            }else {
+                o.setClientId(ID);
+            }
+            o.setClientId(customerID);
+            o.setRequest(Requests.GetBookingSchedule);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
         } catch (Exception e) {
 //            e.printStackTrace();
         }
@@ -127,22 +138,26 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String cancelEvent(String customerID, String eventID, String eventType) {
+    public String cancelEvent(String ID, String customerID, String eventID, String eventType) {
         DatagramSocket socket = null;
         int count = 0;
         StringBuilder sb = new StringBuilder();
 
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
-
-            sendRequest(sb.append("ClientId:")
-                .append("cancelEvent")
-                .append(" ")
-                .append(customerID)
-                .append(" ")
-                .append(eventID)
-                .append(" ")
-                .append(eventType).toString());
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            if (ID.substring(3,4).equals("M")) {
+                o.setManagerId(ID);
+            }else {
+                o.setClientId(ID);
+            }
+            o.setClientId(customerID);
+            o.setEventId(eventID);
+            o.setEventType(eventType);
+            o.setRequest(Requests.CancelEvent);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -151,7 +166,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
     }
 
     @Override
-    public String swapEvent(String customerID, String newEventID, String newEventType,
+    public String swapEvent(String ID, String customerID, String newEventID, String newEventType,
         String oldEventID, String oldEventType) {
         DatagramSocket socket = null;
         int count = 0;
@@ -159,19 +174,21 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
         try {
             socket = new DatagramSocket(FEPort.FE_PORT.FEPort);
-
-            sendRequest(sb.append("ClientId:")
-                .append("swapEvent")
-                .append(" ")
-                .append(customerID)
-                .append(" ")
-                .append(newEventID)
-                .append(" ")
-                .append(newEventType)
-                .append(" ")
-                .append(oldEventID)
-                .append(" ")
-                .append(oldEventType).toString());
+            InetAddress addr = InetAddress.getLocalHost();
+            JsonObject o = new JsonObject();
+            if (ID.substring(3,4).equals("M")) {
+                o.setManagerId(ID);
+            }else {
+                o.setClientId(ID);
+            }
+            o.setClientId(customerID);
+            o.setEventId(newEventID);
+            o.setEventType(newEventType);
+            o.setRequest(Requests.SwapEvent);
+            o.setOldEventId(oldEventID);
+            o.setOldEventType(oldEventType);
+            o.setSourceIp(addr.getHostAddress());
+            sendRequest(o.objectToString(o));
 
         } catch (Exception e) {
 //            e.printStackTrace();

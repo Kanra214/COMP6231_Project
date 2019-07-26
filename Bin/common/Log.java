@@ -12,9 +12,9 @@ public class Log {
         Formatter simpleFormatter;
         try {
             if (loggerName.matches("\\w*(server)")) {
-                fileHandler = new FileHandler("./src/log/server/" + loggerName.toLowerCase() + ".log");
+                fileHandler = new FileHandler("./Bin/log/server/" + loggerName.toLowerCase() + ".log");
             } else if (loggerName.matches("\\w*(client)")) {
-                fileHandler = new FileHandler("./src/log/client/" + loggerName.toLowerCase() + ".log");
+                fileHandler = new FileHandler("./Bin/log/client/" + loggerName.toLowerCase() + ".log");
             }
 
         } catch (IOException e) {
