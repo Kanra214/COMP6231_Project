@@ -1,19 +1,16 @@
 package FE;
-import FrontEnd.FrontEndCorbaPOA;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import PortInformation.AddressInfo;
-import PortInformation.SequencerPort;
-import PortInformation.FEPort;
-import java.util.HashMap;
-import java.util.Map;
-import org.omg.CORBA.ORB;
 import Common.JsonObject;
 import Common.Requests;
+import FrontEnd.FrontEndCorbaPOA;
+import PortInformation.AddressInfo;
+import PortInformation.FEPort;
+import PortInformation.SequencerPort;
+import org.omg.CORBA.ORB;
+
+import java.io.IOException;
+import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FrontEndImpl extends FrontEndCorbaPOA{
@@ -45,7 +42,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setCapacity(bookingCapacity);
             o.setRequest(Requests.AddEvent);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -72,7 +69,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setEventType(eventType);
             o.setRequest(Requests.RemoveEvent);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -101,7 +98,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setEventType(eventType);
             o.setRequest(Requests.ListEventAvailability);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -136,7 +133,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setEventType(eventType);
             o.setRequest(Requests.BookEvent);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -169,7 +166,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setClientId(customerID);
             o.setRequest(Requests.GetBookingSchedule);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -201,8 +198,8 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setEventType(eventType);
             o.setRequest(Requests.CancelEvent);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();
@@ -238,7 +235,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
             o.setOldEventId(oldEventID);
             o.setOldEventType(oldEventType);
             o.setSourceIp(addr.getHostAddress());
-            sendRequest(o.objectToString(o));
+            sendRequest(o.objectToString());
             Timer timer = new Timer(socket,false);
             Thread thread = new Thread(timer);
             thread.start();

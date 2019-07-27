@@ -1,10 +1,10 @@
 package FE;
 
-import java.io.IOException;
-import java.net.*;
-
 import PortInformation.AddressInfo;
 import PortInformation.SequencerPort;
+
+import java.io.IOException;
+import java.net.*;
 
 public class Sequencer {
     public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Sequencer {
                 String received_data = new String(buffer, 0, request.getLength());
                 System.out.println("The Server received: " + received_data);
                 Counter counter = new Counter(0);
-                received_data = received_data + "SequenceNumber:" + counter.nextVal() + ";";
+                received_data = received_data + "SeqNum:" + counter.nextVal() + ";";
                 System.out.println(received_data);
 
                 sendToRM(received_data);
