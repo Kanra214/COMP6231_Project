@@ -12,6 +12,7 @@ public class JsonObject {//only use public methods please
     private String oldEventId;
     private String oldEventType;
     private int capacity;
+    private int seqNum;
 
 
 
@@ -19,6 +20,8 @@ public class JsonObject {//only use public methods please
     private int sourcePort;
     private String portString;
     private String capacityString;
+
+    private String seqNumString;
     private String approved;
     private String getApproved() {
         return approved;
@@ -72,7 +75,9 @@ public class JsonObject {//only use public methods please
         return oldEventType;
     }
 
-
+    public int getSeqNum() {
+        return seqNum;
+    }
 
     public String getSourceIp() {
         return sourceIp;
@@ -94,8 +99,10 @@ public class JsonObject {//only use public methods please
     }
 
     public void setManagerId(String managerId) {
-        if(!managerId.equals("")){
-            this.managerId = managerId;
+        if(managerId != null) {
+            if (!managerId.equals("")) {
+                this.managerId = managerId;
+            }
         }
 
     }
@@ -141,7 +148,10 @@ public class JsonObject {//only use public methods please
     public void setSourcePort(int port){
         this.sourcePort = port;
     }
-
+    public void setSeqNum(int seqNum) {
+        this.seqNumString = seqNum + "";
+        this.seqNum = seqNum;
+    }
 
 
 
@@ -187,6 +197,9 @@ public class JsonObject {//only use public methods please
         if(sourceIp != null){
             hash.put("sourcePort", sourcePort + "");
         }
+        if(seqNumString != null){
+            hash.put("SeqNum", seqNumString);
+        }
         return hash;
     }
 
@@ -230,6 +243,9 @@ public class JsonObject {//only use public methods please
                 if(k.equals("SourcePort")){
                     this.setSourcePort(Integer.parseInt(hash.get("SourcePort")));
                 }
+                if(k.equals("SeqNum")){
+                    this.setSeqNum(Integer.parseInt(hash.get("SeqNum")));
+                }
             }
         }
     }
@@ -255,8 +271,8 @@ public class JsonObject {//only use public methods please
         }
         return param;
     }
-    public String objectToString(JsonObject obj){
-       return hashMapToString(obj.toHashMap());
+    public String objectToString(){
+       return hashMapToString(this.toHashMap());
     }
 
     public static JsonObject stringToObject(String s){

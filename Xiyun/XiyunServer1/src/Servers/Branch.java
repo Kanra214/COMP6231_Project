@@ -1,6 +1,6 @@
 package Servers;
 public enum Branch {
-    TOR(7770, 7771),
+    TOR(7770, 7771),//TODO:hard code this
     MTL(8880,8881),
     OTW(9990,9991);
 

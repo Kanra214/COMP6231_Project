@@ -18,8 +18,9 @@ public class Server {
     private DatagramSocket socketReply;
     private DatagramSocket socketSend;
     private HashMap<String, Client> clientList;
+    private boolean hasBug;
 
-    public Server(Branch b){
+    public Server(Branch b, boolean hasBug){
         branch = b;
         workingDir = System.getProperty("user.dir") + "/" + branch;
         File dirFile = new File(workingDir);
@@ -28,6 +29,7 @@ public class Server {
         log = new Log(workingDir + "/Server.txt");
         clientList = new HashMap<>();
         eventRecords = new EventRecords();
+        this.hasBug = hasBug;
 
 
 
@@ -325,7 +327,7 @@ public class Server {
         o.setRequest(GetBookingSchedule);
         Branch clientBranch = Branch.getBranchFromString(cid.substring(0,3));
 
-        if(!mid.equals("") ){
+        if(!mid.equals("") && mid != null){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
@@ -376,6 +378,13 @@ public class Server {
 
 
     }
+    public void fix(){
+        if(hasBug){
+
+            System.out.println("############fixing bug in server");
+            hasBug = false;
+        }
+    }
 
     public MyJsonObject addEvent(String id, String eventId, String eventType, int capacity){
         Date date = new Date();
@@ -400,6 +409,9 @@ public class Server {
         System.out.println("Event should be added in this server");
         String rescode = eventRecords.addEvent(eventId, eventType, capacity);
         o.setApproved(false);
+        if(hasBug){
+            o.setResponse("System bug!!!!");
+        }
         switch (rescode) {
             case "200":
                 o.setResponse("Succeed, the event is added");
@@ -512,7 +524,7 @@ public class Server {
         o.setEventType(eventTypeString);
         o.setRequest(CancelEvent);
 
-        if(!manId.equals("") ){
+        if(!manId.equals("") && manId != null){
             if(clientList.get(manId) == null){
                 createClient(manId);
             }
@@ -579,7 +591,7 @@ public class Server {
         o.setRequest(SwapEvent);
         o.setOldEventId(oeid);
         o.setOldEventType(oet);
-        if(!mid.equals("")){
+        if(!mid.equals("") && mid != null){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
@@ -695,7 +707,7 @@ public class Server {
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(BookEvent);
-        if(!manId.equals("")){
+        if(!manId.equals("") && manId != null){
             createClient("manId");
         }
 

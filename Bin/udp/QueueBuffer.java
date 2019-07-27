@@ -8,6 +8,7 @@ public class QueueBuffer {
         queue = new LinkedList();
     }
     public void addElement(Object element){
+
          adjustSize();
     }
     private void adjustSize(){
