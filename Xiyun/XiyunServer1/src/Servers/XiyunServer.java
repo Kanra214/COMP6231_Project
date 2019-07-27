@@ -411,9 +411,7 @@ public class XiyunServer implements GeneralServer {
         System.out.println("Event should be added in this server");
         String rescode = eventRecords.addEvent(eventId, eventType, capacity);
         o.setApproved(false);
-        if(hasBug){
-            o.setResponse("System bug!!!!");
-        }
+
         switch (rescode) {
             case "200":
                 o.setResponse("Succeed, the event is added");
@@ -428,6 +426,10 @@ public class XiyunServer implements GeneralServer {
             default:
                 return null;
 
+        }
+        if(hasBug){
+            o.setResponse("System bug!!!!");
+            o.setApproved(false);
         }
         logAction(date, o, true, true);
         return o;
