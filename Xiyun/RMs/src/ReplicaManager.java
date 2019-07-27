@@ -27,8 +27,8 @@ public class ReplicaManager {
         this.RMSocket = new DatagramSocket(this.rmid.getBetweenRM());
 
     }
-    private void start(){
-        cs = new CenterServer(true);
+    public void start(){
+        cs = new CenterServer(this.rmid);//TODO: hard code hasBug. Only XiyunServer will have bug
         cs.setTaskQueue(this.taskQueue);
         cs.setReplyQueue(this.replyQueue);
         this.expectingSeq = INIT_SEQ;

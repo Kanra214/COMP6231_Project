@@ -1,18 +1,19 @@
 import Common.JsonObject;
+import General.GeneralServer;
+import Server.Server;
 import Servers.Branch;
-import Servers.Server;
+import Servers.XiyunServer;
+import common.CityToPort;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 
 public class CenterServer implements Runnable {
-    private Server MTLServer, TORServer, OTWServer;
-    private PriorityBlockingQueue<JsonObject> deliverQueue;
+    private GeneralServer MTLServer, TORServer, OTWServer;
     private BlockingQueue<JsonObject> taskQueue, replyQueue;
-    private boolean hasBug;
-    protected CenterServer(boolean hasBug){
-        this.hasBug = hasBug;
+    private RMID rmid;
+    protected CenterServer(RMID rmid){
+        this.rmid = rmid;
     }
 
     protected void setTaskQueue(BlockingQueue<JsonObject> taskQueue){
@@ -25,22 +26,32 @@ public class CenterServer implements Runnable {
         if(Thread.currentThread().isAlive()){
 
             System.out.println("############fixing server in centerserver");
-            MTLServer.fix();
-            TORServer.fix();
-            OTWServer.fix();
+            MTLServer.fixBug();
+            TORServer.fixBug();
+            OTWServer.fixBug();
         }
     }
 
     @Override
     public void run() {
-        MTLServer = new Server(Branch.MTL, hasBug);
-        TORServer = new Server(Branch.TOR, hasBug);
-        OTWServer = new Server(Branch.OTW, hasBug);
+        if(this.rmid == RMID.BinServer){
+            MTLServer = new Server(CityToPort.map.get("MTL"),"MTL");
+            TORServer = new Server(CityToPort.map.get("TOR"),"TOR");
+            OTWServer = new Server(CityToPort.map.get("OTW"),"OTW");
+        }
+        else {
+            MTLServer = new XiyunServer(Branch.MTL);
+            TORServer = new XiyunServer(Branch.TOR);
+            OTWServer = new XiyunServer(Branch.OTW);
+        }
+        if(this.rmid == RMID.Xiyun2){
+            MTLServer.setBug();//TODO:hard code this
+        }
         while(true){
             try {
                 JsonObject request = taskQueue.take();
                 System.out.println("Processing " + request.getSeqNum());
-                Server server = getServerByBranch(request.getClientId());
+                GeneralServer server = getServerByBranch(request.getClientId());
                 JsonObject response;
                 switch(request.getRequest()){
                     case AddEvent:
@@ -81,7 +92,7 @@ public class CenterServer implements Runnable {
 
         }
     }
-    private Server getServerByBranch(String id){
+    private GeneralServer getServerByBranch(String id){
         switch(id.substring(0,3)){
             case "MTL":
                 return MTLServer;

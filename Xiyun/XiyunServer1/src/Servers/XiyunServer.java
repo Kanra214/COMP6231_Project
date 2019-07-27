@@ -1,4 +1,7 @@
 package Servers;
+
+import General.GeneralServer;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,7 +13,7 @@ import java.util.*;
 import static Common.Requests.*;
 
 
-public class Server {
+public class XiyunServer implements GeneralServer {
     private Branch branch;
     private EventRecords eventRecords;
     private String workingDir;
@@ -18,9 +21,9 @@ public class Server {
     private DatagramSocket socketReply;
     private DatagramSocket socketSend;
     private HashMap<String, Client> clientList;
-    private boolean hasBug;
+    private boolean hasBug = false;
 
-    public Server(Branch b, boolean hasBug){
+    public XiyunServer(Branch b){
         branch = b;
         workingDir = System.getProperty("user.dir") + "/" + branch;
         File dirFile = new File(workingDir);
@@ -29,12 +32,11 @@ public class Server {
         log = new Log(workingDir + "/Server.txt");
         clientList = new HashMap<>();
         eventRecords = new EventRecords();
-        this.hasBug = hasBug;
 
 
-
-
-
+    }
+    public void setBug(){
+        hasBug = true;
     }
     public void start(){
             System.out.println("Start");
@@ -378,7 +380,7 @@ public class Server {
 
 
     }
-    public void fix(){
+    public void fixBug(){
         if(hasBug){
 
             System.out.println("############fixing bug in server");

@@ -1,8 +1,9 @@
 package Server;
 
+import General.GeneralServer;
 import common.Log;
 
-public class Server {
+public class Server implements GeneralServer {
 
     private int port;
     private String branch;
@@ -26,5 +27,20 @@ public class Server {
     private void startUDP() {
         UDPHandler udp = new UDPHandler(this.port,this.eventService,this.log);
         udp.listen();
+    }
+
+    @Override
+    public void start() {
+        startThread();
+    }
+
+    @Override
+    public void setBug() {//TODO
+
+    }
+
+    @Override
+    public void fixBug() {//TODO
+
     }
 }

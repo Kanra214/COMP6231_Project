@@ -3,9 +3,12 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Bin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Common" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Xiyun/XiyunServer1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Xiyun/RMs/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Xiyun/BinServer/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/Bin/Server" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
