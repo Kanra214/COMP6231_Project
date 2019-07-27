@@ -5,6 +5,7 @@ import FrontEnd.FrontEndCorbaPOA;
 import PortInformation.AddressInfo;
 import PortInformation.FEPort;
 import PortInformation.SequencerPort;
+import java.util.StringJoiner;
 import org.omg.CORBA.ORB;
 
 import java.io.IOException;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 public class FrontEndImpl extends FrontEndCorbaPOA{
     private ORB orb;
+    private HashMap<String, Integer> softwareFailCounter;
+
+
     static public Map<String, String> portToReplicaManager = new HashMap<>();
     //key RM portNumber, Value Number of Replicamanger
     static {
@@ -22,7 +26,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         portToReplicaManager.put("6002", "2");
         portToReplicaManager.put("6003", "3");
     }
-
+    public FrontEndImpl(){
+        softwareFailCounter = new HashMap<String,Integer>();
+        softwareFailCounter.put("1",0);
+        softwareFailCounter.put("2",0);
+        softwareFailCounter.put("3",0);
+    }
     public void setORB(ORB orb_val) {
         orb = orb_val;
     }
@@ -53,7 +62,8 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "addEvent method";
+        return majority(resultSet);
+//        return "addEvent method";
     }
 
     @Override
@@ -83,7 +93,9 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         if (resultSet.size() < 3){
 //            tellRMCrash(resultSet);
         }
-        return "removeEvent method";
+        return majority(resultSet);
+
+//        return "removeEvent method";
     }
 
     @Override
@@ -106,11 +118,16 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
                 count = registerListener(socket, resultSet);
             }
 
-
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "listEvent method";
+        if (resultSet.size() < 3){
+            tellRMCrash(resultSet);
+        }
+
+        return majority(resultSet);
+
+//        return "listEvent method";
     }
 
     @Override
@@ -144,7 +161,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "bookEvent method";
+        if (resultSet.size() < 3){
+            tellRMCrash(resultSet);
+        }
+        return majority(resultSet);
+
+//        return "bookEvent method";
     }
 
     @Override
@@ -176,7 +198,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "getBooking method";
+        if (resultSet.size() < 3){
+            tellRMCrash(resultSet);
+        }
+//        return "getBooking method";
+        return majority(resultSet);
+
     }
 
     @Override
@@ -210,7 +237,12 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "cancelEvent method";
+        if (resultSet.size() < 3){
+            tellRMCrash(resultSet);
+        }
+//        return "cancelEvent method";
+        return majority(resultSet);
+
     }
 
     @Override
@@ -246,9 +278,91 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-        return "swapEvent method";
+        if (resultSet.size() < 3){
+            tellRMCrash(resultSet);
+        }
+
+        return majority(resultSet);
     }
 
+    private String majority(HashMap<String,JsonObject> resultSet) {
+        String result = null;
+        int countTrue = 0;
+        int countFalse = 0;
+        for (Map.Entry<String, JsonObject> entry : resultSet.entrySet()) {
+            if (entry.getValue().getApproved().equals("True")) {
+                countTrue = countTrue + 1;
+            }else {
+                countFalse = countFalse + 1;
+            }
+        }
+        if (countTrue == 3 || countFalse == 3) {
+            for (JsonObject temp : resultSet.values()) {
+                result = temp.getResponse();
+                break;
+            }
+            return result;
+        }
+        if (countTrue == 2) {
+            for (JsonObject temp : resultSet.values()) {
+                if (temp.getApproved().equals("True")) {
+                    result = temp.getResponse();
+                }
+                break;
+            }
+            return result;
+
+        }
+        if (countFalse == 2) {
+            for (JsonObject temp : resultSet.values()) {
+                if (temp.getApproved().equals("False")) {
+                    result = temp.getResponse();
+                }
+                break;
+            }
+            return result;
+
+        }
+        findSoftwareFail(countTrue, countFalse, resultSet);
+
+        return result;
+    }
+
+    private void findSoftwareFail(int countTrue, int countFalse, HashMap<String, JsonObject> resultSet) {
+        if (countFalse ==3 || countTrue == 3) {
+            return;
+        }
+        String failServerNum = null;
+        if (countTrue == 2) {
+            for (Map.Entry<String, JsonObject> entry : resultSet.entrySet()){
+                if (!entry.getValue().getApproved().equals("False")){
+                    failServerNum = entry.getKey();
+                }
+            }
+
+        }
+        if(countFalse == 2) {
+            for (Map.Entry<String, JsonObject> entry : resultSet.entrySet()){
+                if (!entry.getValue().getApproved().equals("True")){
+                    failServerNum = entry.getKey();
+                }
+            }
+        }
+
+        if (failServerNum != null){
+            for (Map.Entry<String,Integer> entry:
+                softwareFailCounter.entrySet()) {
+                if (!entry.getKey().equals(failServerNum)){
+                    entry.setValue(0);
+                } else if(entry.getKey().equals(failServerNum)){
+                    entry.setValue(entry.getValue() + 1);
+                }
+            }
+        }
+        if (softwareFailCounter.get(failServerNum) != null && softwareFailCounter.get(failServerNum) == 3){
+            sendToRM(failServerNum);
+        }
+    }
     //This function is used to send request to sequencer
     public void sendRequest(String message) throws Exception {
 
@@ -262,26 +376,8 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
     }
 
-//    private void multicastCrashMsg(DatagramSocket socket, byte[] data){
-//        try {
-//            socket.send(packet(AddressInfo.ADDRESS_INFO.RM1address, data,Replica.REPLICA.replica1));
-//            socket.send(packet(AddressInfo.ADDRESS_INFO.RM2address, data,Replica.REPLICA.replica2 ));
-//            socket.send(packet(AddressInfo.ADDRESS_INFO.RM3address, data,Replica.REPLICA.replica3));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
-//    private void sendReq(String msg) {
-//        try {
-//            DatagramSocket socket = new DatagramSocket();
-//            byte[] data = msg.getBytes();
-//            multicastCrashMsg(socket,data);
-//        } catch (SocketException e) {
-//            e.printStackTrace();
-//        }
-//    }
-    private void tellRMCrash(Map<String, String> resultSet) {
+    private void tellRMCrash(HashMap<String, JsonObject> resultSet) {
         if (!resultSet.containsKey("1")) {
             String msg = "1 " + Failure.ServerCrash;
             sendReq(msg);
@@ -368,6 +464,5 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         public final int replica1 = 6001;
         public final int replica2 = 6002;
         public final int replica3 = 6003;
-        public final int replica4 = 6004;
     }
 }
