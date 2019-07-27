@@ -7,9 +7,6 @@ public class Counter implements Serializable{
     public Counter(int cntr){
         counter = cntr;
     }
-    public Counter(String cntrStrng){
-        counter = Integer.parseInt(cntrStrng);
-    }
     public Counter(){
         counter = 0;
     }

@@ -22,6 +22,9 @@ public class SequencerTest {
 
                 String received_data = new String(buffer, 0 , request.getLength());
                 System.out.println("The Server received: " + received_data);
+                Counter counter = new Counter(0);
+                received_data = received_data+"SequenceNumber:"+counter.nextVal()+";";
+                System.out.println(received_data);
 
 //                DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(),
 //                    request.getPort());// reply packet ready
