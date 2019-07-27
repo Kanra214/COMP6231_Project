@@ -3,6 +3,7 @@ import Client.Client;
 import Client.EventManager;
 import Client.Customer;
 import java.util.ArrayList;
+/*
 import org.junit.Test;
 import org.junit.Before;
 
@@ -55,3 +56,4 @@ public class TestCase {
 
 
 }
+*/

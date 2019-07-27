@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class ClientDriver {
     private Scanner scanner;
 
+
     public ClientDriver() {
         scanner = new Scanner(System.in);
         this.init();
