@@ -82,7 +82,7 @@ public class ReplicaManager {
     }
     private void restartServer(){
         System.out.println("############restarting server");
-        cs = new CenterServer(false);
+        cs = new CenterServer(this.rmid);
         taskQueue = new LinkedBlockingDeque<>(backupQueue);
         replyQueue.clear();
         cs.setTaskQueue(taskQueue);
