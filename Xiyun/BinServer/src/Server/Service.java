@@ -1,7 +1,9 @@
 package Server;
 import common.Log;
 
-public class Service{
+
+
+public class Service {
 
     private EventService eventService;
     private Log log;
@@ -95,4 +97,7 @@ public class Service{
 
         return status;
     }
+
+
+
 }
