@@ -1,7 +1,8 @@
-package Server;
+package BinServer.src.Server;
 
-import common.CityToPort;
-import common.Log;
+import BinServer.src.Server.EventService;
+import BinServer.src.common.CityToPort;
+import BinServer.src.common.Log;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

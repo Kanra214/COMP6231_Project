@@ -192,10 +192,10 @@ public class JsonObject {//only use public methods please
             hash.put("OldEventType", oldEventType);
         }
         if(sourceIp != null){
-            hash.put("sourceIp", sourceIp);
+            hash.put("SourceIp", sourceIp);
         }
         if(sourceIp != null){
-            hash.put("sourcePort", sourcePort + "");
+            hash.put("SourcePort", sourcePort + "");
         }
         if(seqNumString != null){
             hash.put("SeqNum", seqNumString);
@@ -235,10 +235,10 @@ public class JsonObject {//only use public methods please
                     this.setOldEventId(hash.get("OldEventId"));
                 }
                 if(k.equals("OldEventType")){
-                    this.setEventType(hash.get("OldEventType"));
+                    this.setOldEventType(hash.get("OldEventType"));
                 }
                 if(k.equals("SourceIp")){
-                    this.setEventType(hash.get("SourceIp"));
+                    this.setSourceIp(hash.get("SourceIp"));
                 }
                 if(k.equals("SourcePort")){
                     this.setSourcePort(Integer.parseInt(hash.get("SourcePort")));

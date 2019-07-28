@@ -1,3 +1,4 @@
+package RMs.src;
 
 public enum RMID {
     BinServer(6000, 6010, 6020),

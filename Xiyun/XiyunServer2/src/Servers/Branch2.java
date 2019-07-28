@@ -1,18 +1,18 @@
 package Servers;
-public enum Branch {
+public enum Branch2 {
 
 
-    TOR(7770, 7771),//TODO:hard code this
+    TOR(7772, 7773),//TODO:hard code this
 
-    MTL(8880, 8881),
+    MTL(8882, 8883),
 
-    OTW(9990, 9991);
+    OTW(9992, 9993);
 
 
 
 
     private int udpSendPort,udpReplyPort;
-    Branch(int udpSendPort, int udpReplyPort){
+    Branch2(int udpSendPort, int udpReplyPort){
         this.udpSendPort = udpSendPort;
         this.udpReplyPort = udpReplyPort;
     }
@@ -22,7 +22,7 @@ public enum Branch {
     public int getUdpReplyPort(){
         return udpReplyPort;
     }
-    public static Branch getBranchFromString(String s){
+    public static Branch2 getBranchFromString(String s){
         switch(s){
             case "TOR":
                 return TOR;
@@ -34,20 +34,20 @@ public enum Branch {
         return null;
     }
 
-    public static Branch getBranchFromPort(int port){
+    public static Branch2 getBranchFromPort(int port){
         switch(port){
-            case 7770:
+            case 7772:
                 return TOR;
-            case 7771:
+            case 7773:
                 return TOR;
-            case 8880:
+            case 8882:
                 return MTL;
-            case 8881:
+            case 8883:
                 return MTL;
 
-            case 9990:
+            case 9992:
                 return OTW;
-            case 9991:
+            case 9993:
                 return OTW;
         }
         return null;

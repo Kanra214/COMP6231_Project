@@ -1,9 +1,9 @@
-package Server;
+package BinServer.src.Server;
 
+import BinServer.src.common.CityToPort;
+import BinServer.src.common.Customer;
+import BinServer.src.common.Event;
 import com.sun.net.httpserver.Authenticator.Success;
-import common.CityToPort;
-import common.Customer;
-import common.Event;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;

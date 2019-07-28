@@ -1,5 +1,7 @@
-package Server;
-import common.Log;
+package BinServer.src.Server;
+
+import BinServer.src.common.Log;
+
 
 
 

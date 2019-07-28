@@ -5,16 +5,15 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Bin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Common" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Xiyun/XiyunServer1/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Xiyun/RMs/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Xiyun/BinServer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Xiyun/Test/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Bin/Server" />
+      <excludeFolder url="file://$MODULE_DIR$/Bin/common" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="COMP6231_Project" level="project" />
-    <orderEntry type="module" module-name="Tanishq" />
     <orderEntry type="module" module-name="XiyunServer1" />
-    <orderEntry type="module" module-name="BinServer" />
+    <orderEntry type="module" module-name="XiyunServer2" />
   </component>
 </module>

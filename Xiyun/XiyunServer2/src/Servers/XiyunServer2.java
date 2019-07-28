@@ -13,25 +13,25 @@ import java.util.*;
 import static Common.Requests.*;
 
 
-public class XiyunServer implements GeneralServer {
-    private Branch branch;
-    private EventRecords eventRecords;
+public class XiyunServer2 implements GeneralServer {
+    private Branch2 branch;
+    private EventRecords2 eventRecords;
     private String workingDir;
-    private Log log;
+    private Log2 log;
     private DatagramSocket socketReply;
     private DatagramSocket socketSend;
     private HashMap<String, Client> clientList;
     private boolean hasBug = false;
 
-    public XiyunServer(Branch b){
+    public XiyunServer2(Branch2 b){
         branch = b;
         workingDir = System.getProperty("user.dir") + "/" + branch;
         File dirFile = new File(workingDir);
         dirFile.mkdirs();
 
-        log = new Log(workingDir + "/Server.txt");
+        log = new Log2(workingDir + "/Server.txt");
         clientList = new HashMap<>();
-        eventRecords = new EventRecords();
+        eventRecords = new EventRecords2();
 
 
     }
@@ -40,7 +40,7 @@ public class XiyunServer implements GeneralServer {
     }
     public void start(){
             System.out.println("Start");
-            MyJsonObject o = new MyJsonObject();
+            MyJsonObject2 o = new MyJsonObject2();
             o.setRequest(StartServer);
             logAction(new Date(), o, false, true);
 
@@ -53,17 +53,17 @@ public class XiyunServer implements GeneralServer {
                     DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                     socketReply.receive(request);
 //                    Branch from = Branch.getBranchFromPort(request.getPort());
-                    System.out.println("Receive request from branch " + Branch.getBranchFromPort(request.getPort()).name());
+                    System.out.println("Receive request from branch " + Branch2.getBranchFromPort(request.getPort()).name());
                     Date date = new Date();
-                    MyJsonObject requestObj = parsePacket(request);
+                    MyJsonObject2 requestObj = parsePacket(request);
                     requestObj.setTargetServer(null);
-                    requestObj.setSourceServer(Branch.getBranchFromPort(request.getPort()));
+                    requestObj.setSourceServer(Branch2.getBranchFromPort(request.getPort()));
                     logAction(date, requestObj, false,  true);//server log on receiving
 
-                    MyJsonObject replyObj = parseRequest(requestObj);
-                    replyObj.setSourceServer(Branch.getBranchFromPort(request.getPort()));
+                    MyJsonObject2 replyObj = parseRequest(requestObj);
+                    replyObj.setSourceServer(Branch2.getBranchFromPort(request.getPort()));
                     replyObj.setTargetServer(null);
-                    System.out.println("Replying request " + requestObj.getRequest().name() + " from branch " + Branch.getBranchFromPort(request.getPort()).name());
+                    System.out.println("Replying request " + requestObj.getRequest().name() + " from branch " + Branch2.getBranchFromPort(request.getPort()).name());
                     if(replyObj.isApproved()) {
                         System.out.println("Request is approved");
                     }
@@ -81,7 +81,7 @@ public class XiyunServer implements GeneralServer {
 
         }
 
-    private MyJsonObject parseRequest(MyJsonObject obj){
+    private MyJsonObject2 parseRequest(MyJsonObject2 obj){
         System.out.println("Parsing request " + obj.getRequest().name());
         switch(obj.getRequest()){
             case BookEvent:
@@ -107,15 +107,15 @@ public class XiyunServer implements GeneralServer {
         return null;
 
     }
-    private MyJsonObject parsePacket(DatagramPacket pa) {//reply or request
+    private MyJsonObject2 parsePacket(DatagramPacket pa) {//reply or request
         String msg = new String(pa.getData(), 0, pa.getLength());
-        HashMap<String, String> param = MyJsonObject.stringToHashMap(msg);
-        MyJsonObject o = new MyJsonObject();
+        HashMap<String, String> param = MyJsonObject2.stringToHashMap(msg);
+        MyJsonObject2 o = new MyJsonObject2();
         o.setFromHashMap(param);
         return o;
     }
 
-    private MyJsonObject modifyClientList(MyJsonObject o){
+    private MyJsonObject2 modifyClientList(MyJsonObject2 o){
         if(o.getOriginalRequest() == RemoveEvent){
             synchronized (clientList){
                 for(Client c : clientList.values()){
@@ -131,7 +131,7 @@ public class XiyunServer implements GeneralServer {
 
 
 
-    private MyJsonObject modifyEventRecord(MyJsonObject obj){
+    private MyJsonObject2 modifyEventRecord(MyJsonObject2 obj){
         System.out.println("Original Request is " + obj.getOriginalRequest());
         String rescode;
         switch(obj.getOriginalRequest()) {
@@ -233,7 +233,7 @@ public class XiyunServer implements GeneralServer {
 
 
 
-    private void logAction(Date date, MyJsonObject obj, boolean clientCopy, boolean serverCopy){
+    private void logAction(Date date, MyJsonObject2 obj, boolean clientCopy, boolean serverCopy){
         System.out.println("Logging action");
         String input = "Date:" + date.toString() + ";";
         HashMap<String, String> param = obj.toHashMap();
@@ -321,15 +321,15 @@ public class XiyunServer implements GeneralServer {
 //    }
 
 
-    public MyJsonObject getBookingSchedule(String cid, String mid){
+    public MyJsonObject2 getBookingSchedule(String cid, String mid){
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setClientId(cid);
         o.setManagerId(mid);
         o.setRequest(GetBookingSchedule);
-        Branch clientBranch = Branch.getBranchFromString(cid.substring(0,3));
+        Branch2 clientBranch = Branch2.getBranchFromString(cid.substring(0,3));
 
-        if(mid != null && !mid.equals("")){
+        if(!mid.equals("") && mid != null){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
@@ -364,7 +364,7 @@ public class XiyunServer implements GeneralServer {
                 String temp = "";
                 for (String et : client.eventList.keySet()) {
                     for (String eid : client.eventList.get(et).keySet()) {
-                        temp += Event.dateToString(client.eventList.get(et).get(eid)) + ", " + eid + ", " + et + "\n";
+                        temp += Event2.dateToString(client.eventList.get(et).get(eid)) + ", " + eid + ", " + et + "\n";
                     }
 
                 }
@@ -388,9 +388,9 @@ public class XiyunServer implements GeneralServer {
         }
     }
 
-    public MyJsonObject addEvent(String id, String eventId, String eventType, int capacity){
+    public MyJsonObject2 addEvent(String id, String eventId, String eventType, int capacity){
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setClientId(id);
         o.setEventId(eventId);
         o.setEventType(eventType);
@@ -435,9 +435,9 @@ public class XiyunServer implements GeneralServer {
         return o;
 
     }
-    public MyJsonObject removeEvent(String id, String eventId, String eventType){
+    public MyJsonObject2 removeEvent(String id, String eventId, String eventType){
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setClientId(id);
         o.setEventId(eventId);
         o.setEventType(eventType);
@@ -463,7 +463,7 @@ public class XiyunServer implements GeneralServer {
                 o.setApproved(true);
                 o.setRequest(ModifyClientList);
                 o.setOriginalRequest(RemoveEvent);
-                ArrayList<Branch> br = new ArrayList<>(Arrays.asList(Branch.values()));
+                ArrayList<Branch2> br = new ArrayList<>(Arrays.asList(Branch2.values()));
                 br.remove(this.branch);
                 o.setTargetServer(br.remove(0));
                 send(o);
@@ -485,16 +485,16 @@ public class XiyunServer implements GeneralServer {
 
 
     }
-    public MyJsonObject listEventAvailability(String id, String eventType){
+    public MyJsonObject2 listEventAvailability(String id, String eventType){
         Date date = new Date();
-        MyJsonObject a = new MyJsonObject();
-        MyJsonObject b = new MyJsonObject();
+        MyJsonObject2 a = new MyJsonObject2();
+        MyJsonObject2 b = new MyJsonObject2();
 
         if(clientList.get(id) == null){
             createClient(id);
         }
 
-        ArrayList<Branch> br = new ArrayList<>(Arrays.asList(Branch.values()));
+        ArrayList<Branch2> br = new ArrayList<>(Arrays.asList(Branch2.values()));
         br.remove(this.branch);
         a.setTargetServer(br.remove(0));
         b.setTargetServer(br.remove(0));
@@ -519,22 +519,22 @@ public class XiyunServer implements GeneralServer {
 
     }
 
-    public MyJsonObject cancelEvent(String id, String manId, String eventId, String eventTypeString) {
+    public MyJsonObject2 cancelEvent(String id, String manId, String eventId, String eventTypeString) {
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setManagerId(manId);
         o.setClientId(id);
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(CancelEvent);
 
-        if( manId != null && !manId.equals("") ){
+        if(!manId.equals("") && manId != null){
             if(clientList.get(manId) == null){
                 createClient(manId);
             }
         }
-        Branch clientBranch = Branch.getBranchFromString(id.substring(0,3));
-        Branch eventBranch = Branch.getBranchFromString(eventId.substring(0,3));
+        Branch2 clientBranch = Branch2.getBranchFromString(id.substring(0,3));
+        Branch2 eventBranch = Branch2.getBranchFromString(eventId.substring(0,3));
         if(clientBranch != this.branch){//client is on another server
             System.out.println("Client is not in this server");
 //            o.setTargetServer(clientBranch);
@@ -587,23 +587,23 @@ public class XiyunServer implements GeneralServer {
 
 
     }
-    public MyJsonObject swapEvent(String cid, String mid, String neid, String net, String oeid, String oet){
+    public MyJsonObject2 swapEvent(String cid, String mid, String neid, String net, String oeid, String oet){
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setManagerId(mid);
         o.setClientId(cid);
         o.setRequest(SwapEvent);
         o.setOldEventId(oeid);
         o.setOldEventType(oet);
-        if(mid != null && !mid.equals("") ){
+        if(!mid.equals("") && mid != null){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
         }
 
-        Branch clientBranch = Branch.getBranchFromString(cid.substring(0,3));
-        Branch newEventBranch = Branch.getBranchFromString(neid.substring(0,3));
-        Branch oldEventBranch = Branch.getBranchFromString(oeid.substring(0,3));
+        Branch2 clientBranch = Branch2.getBranchFromString(cid.substring(0,3));
+        Branch2 newEventBranch = Branch2.getBranchFromString(neid.substring(0,3));
+        Branch2 oldEventBranch = Branch2.getBranchFromString(oeid.substring(0,3));
         if(clientBranch != this.branch){//client is on another server
             System.out.println("Client is not in this server");
 //            o.setTargetServer(clientBranch);
@@ -695,7 +695,7 @@ public class XiyunServer implements GeneralServer {
 
     }
 
-    private MyJsonObject getEventList(MyJsonObject obj){
+    private MyJsonObject2 getEventList(MyJsonObject2 obj){
         obj.setResponse(eventRecords.listAvailability(obj.getEventType()));
         obj.setApproved(true);
 
@@ -703,20 +703,20 @@ public class XiyunServer implements GeneralServer {
         return obj;
 
     }
-    public MyJsonObject bookEvent(String id, String manId, String eventId, String eventTypeString){
+    public MyJsonObject2 bookEvent(String id, String manId, String eventId, String eventTypeString){
         Date date = new Date();
-        MyJsonObject o = new MyJsonObject();
+        MyJsonObject2 o = new MyJsonObject2();
         o.setManagerId(manId);
         o.setClientId(id);
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(BookEvent);
-        if(manId != null && !manId.equals("")){
+        if(!manId.equals("") && manId != null){
             createClient("manId");
         }
 
-        Branch clientBranch = Branch.getBranchFromString(id.substring(0,3));
-        Branch eventBranch = Branch.getBranchFromString(eventId.substring(0,3));
+        Branch2 clientBranch = Branch2.getBranchFromString(id.substring(0,3));
+        Branch2 eventBranch = Branch2.getBranchFromString(eventId.substring(0,3));
         if(clientBranch != this.branch){//client is on another server
             System.out.println("Client is not in this server");
 //            o.setTargetServer(clientBranch);
@@ -771,17 +771,17 @@ public class XiyunServer implements GeneralServer {
 
 
         }
-    private String addEventToClient(Branch toBranch, Client client,MyJsonObject o){
+    private String addEventToClient(Branch2 toBranch, Client client, MyJsonObject2 o){
         synchronized(client) {
             if (!client.eventList.get(o.getEventType()).containsKey(o.getEventId())) {
-                Date da = Event.parseEventDate(o.getEventId());
+                Date da = Event2.parseEventDate(o.getEventId());
                 if (client.checkDate(da) || o.getEventId().substring(0,3).equals(client.branch.name())){
                     //event is on another branch
                     if(toBranch != this.branch) {
                         o.setOriginalRequest(BookEvent);
                         o.setRequest(ModifyEventList);
                         o.setTargetServer(toBranch);
-                        MyJsonObject res = send(o);
+                        MyJsonObject2 res = send(o);
                         if (res.isApproved()) {
                             client.eventList.get(o.getEventType()).put(o.getEventId(), da);
                         }
@@ -804,14 +804,14 @@ public class XiyunServer implements GeneralServer {
             }
         }
     }
-    private String removeEventFromClient(Branch toBranch, Client client,MyJsonObject o){
+    private String removeEventFromClient(Branch2 toBranch, Client client, MyJsonObject2 o){
         synchronized(client) {
             if (client.eventList.get(o.getEventType()).containsKey(o.getEventId())) {
                 if(toBranch != this.branch) {//event is on another branch
                     o.setOriginalRequest(CancelEvent);
                     o.setRequest(ModifyEventList);
                     o.setTargetServer(toBranch);
-                    MyJsonObject res = send(o);
+                    MyJsonObject2 res = send(o);
                     //TODO
                     if (res.isApproved()) {
                         client.eventList.get(o.getEventType()).remove(o.getEventId());
@@ -834,11 +834,11 @@ public class XiyunServer implements GeneralServer {
             }
         }
     }
-    private MyJsonObject send(MyJsonObject o) {
+    private MyJsonObject2 send(MyJsonObject2 o) {
         Date date = new Date();
         byte[] bytes;
         HashMap<String, String> param = o.toHashMap();
-        bytes = MyJsonObject.hashMapToString(param).getBytes();
+        bytes = MyJsonObject2.hashMapToString(param).getBytes();
         int toPort;
         if(o.getTargetServer() != null){//send request
             toPort = o.getTargetServer().getUdpReplyPort();
@@ -864,8 +864,8 @@ public class XiyunServer implements GeneralServer {
                 byte[] buffer = new byte[1024];
                 DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
                 socketSend.receive(reply);
-                System.out.println("Receive response from branch " + Branch.getBranchFromPort(reply.getPort()).name());
-                MyJsonObject replyObj = parsePacket(reply);
+                System.out.println("Receive response from branch " + Branch2.getBranchFromPort(reply.getPort()).name());
+                MyJsonObject2 replyObj = parsePacket(reply);
                 replyObj.setSourceServer(null);
                 replyObj.setTargetServer(o.getTargetServer());
                 logAction(new Date(), replyObj, false, true);//server log on receiving
@@ -895,20 +895,20 @@ public class XiyunServer implements GeneralServer {
 
     private class Client {
         String id;
-        Log log;
-        Branch branch;
+        Log2 log;
+        Branch2 branch;
 
 
         HashMap<String, HashMap<String, Date>> eventList;//event type, event id, eventDate
 
         Client(String id) {
             eventList = new HashMap<>();//
-            for (String s : Event.EVENTTYPES) {
+            for (String s : Event2.EVENTTYPES) {
                 eventList.put(s, new HashMap<>());
             }
             this.id = id;
-            log = new Log(System.getProperty("user.dir") + "/" + id.substring(0, 3) + "/" + id + ".txt");
-            branch = Branch.getBranchFromString(id.substring(0, 3));
+            log = new Log2(System.getProperty("user.dir") + "/" + id.substring(0, 3) + "/" + id + ".txt");
+            branch = Branch2.getBranchFromString(id.substring(0, 3));
 
         }
 
