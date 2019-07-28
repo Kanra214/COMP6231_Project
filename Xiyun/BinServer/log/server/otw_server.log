@@ -1,0 +1,233 @@
+Jul 28, 2019 3:41:07 PM Server.UDPHandler <init>
+INFO: 
+UDP at port8888 started......
+Jul 28, 2019 3:41:07 PM Server.UDPHandler listen
+INFO: 
+UDP at Port :8888 listening.....
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: addEvent
+Parameters: 
+          EventID: OTWA190619
+          EventType: Conference
+          bookingCapacity: 1
+
+Status: Success
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: addEvent
+Parameters: 
+          EventID: OTWA250619
+          EventType: Seminar
+          bookingCapacity: 1
+
+Status: Success
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: addEvent
+Parameters: 
+          EventID: OTWA190619
+          EventType: Conference
+          bookingCapacity: 1
+
+Status: The course has already in the system, the capacity is updated
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60056: showAvailableEvents Conference is handling....
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60056: 
+OTWA190619 2
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from8888is: OTWA190619 2
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from7777is: MTLA090619 2
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: TORE080619 2
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: listEventAvailability
+Parameters: 
+          EventType: Conference
+Status: OTWA190619 2, MTLA090619 2, TORE080619 2
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60059: showAvailableEvents Seminar is handling....
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60059: 
+OTWA250619 1
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from8888is: OTWA250619 1
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from7777is: 
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: TORE110619 1
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: listEventAvailability
+Parameters: 
+          EventType: Seminar
+Status: OTWA250619 1, TORE110619 1
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60062: showAvailableEvents TradeShow is handling....
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60062: 
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from8888is: 
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from7777is: MTLA080619 1
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: 
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: listEventAvailability
+Parameters: 
+          EventType: TradeShow
+Status: MTLA080619 1
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: Success
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: bookEvent
+Parameters: 
+          CustomerID: OTWC1234
+          EventID: TORE080619
+          EventType: Conference
+Status: Success
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: Success
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: bookEvent
+Parameters: 
+          CustomerID: OTWC1234
+          EventID: TORE110619
+          EventType: Seminar
+Status: Success
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from7777is: Success
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: bookEvent
+Parameters: 
+          CustomerID: OTWC1234
+          EventID: MTLA090619
+          EventType: Conference
+Status: Success
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: bookEvent
+Parameters: 
+          CustomerID: OTWC1234
+          EventID: OTWA190619
+          EventType: Conference
+Status: Success
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: getBookingSchedule
+Parameters: 
+          CustomerID: OTWC1234
+Status: Seminar : TORE110619
+TradeShow : 
+Conference : TORE080619,MTLA090619,OTWA190619
+
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: swapEvent
+Parameters: 
+          CustomerID: OTWC1234
+          newEventID: MTLA080619
+          newEventType: TradeShow
+          oldEventID: OTWA190619
+          oldEventType: Conference
+Status: If you swap you will register more than 3 other city event
+
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60069: swap_book OTWC1234 OTWA250619 TORE080619 is handling....
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: Success
+Jul 28, 2019 3:41:11 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60069: 
+Success
+Jul 28, 2019 3:41:11 PM Server.UDPHandler send
+INFO: 
+UDP at port : 8888get reply from6666is: Success
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: swapEvent
+Parameters: 
+          CustomerID: OTWC1234
+          newEventID: OTWA250619
+          newEventType: Seminar
+          oldEventID: TORE080619
+          oldEventType: Conference
+Status: Success
+
+Jul 28, 2019 3:41:11 PM common.Log info
+INFO: 
+MethodType: getBookingSchedule
+Parameters: 
+          CustomerID: OTWC1234
+Status: Seminar : TORE110619,OTWA250619
+TradeShow : 
+Conference : MTLA090619,OTWA190619
+
+
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60072: showAvailableEvents Conference is handling....
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60072: 
+OTWA190619 1
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60075: showAvailableEvents Seminar is handling....
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60075: 
+OTWA250619 0
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+UDP at port: 8888 Received requst from 60078: showAvailableEvents TradeShow is handling....
+Jul 28, 2019 3:41:12 PM Server.UDPHandler handle
+INFO: 
+ Finish handle...
+UDP at port 8888 Send reply to : 60078: 
+

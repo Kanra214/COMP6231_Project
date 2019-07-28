@@ -25,7 +25,7 @@ public class XiyunServer implements GeneralServer {
 
     public XiyunServer(Branch b){
         branch = b;
-        workingDir = System.getProperty("user.dir") + "/" + branch;
+        workingDir = System.getProperty("user.dir") + "/Xiyun/XiyunServer1/" + branch;
         File dirFile = new File(workingDir);
         dirFile.mkdirs();
 

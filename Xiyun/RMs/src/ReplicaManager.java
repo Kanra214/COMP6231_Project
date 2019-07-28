@@ -1,6 +1,7 @@
 package RMs.src;
 
 import Common.JsonObject;
+import Common.Requests;
 import RMs.src.RMID;
 
 import java.io.IOException;
@@ -59,27 +60,30 @@ public class ReplicaManager {
                 listeningSocket.receive(request);
                 String msg = new String(request.getData(), 0, request.getLength());
                 System.out.println("receive " + msg);
-                String ackMsg = null;
+                JsonObject o = JsonObject.stringToObject(msg);
+
                 //TODO:ack back, need to agree on port to send ack
 
-                if (msg.equals("Restart")) {//TODO:need agreement on this message
-                    restartServer();
-                    ackMsg = "ACKRestart";
 
-                } else if (msg.equals("Fix bug")) {//TODO:need agreement on this message
-                    cs.fixBug();
-                    ackMsg = "ACKFixBug";
 
-                } else {
-                    JsonObject o = JsonObject.stringToObject(msg);
-                    ackMsg = "ACK" + o.getSeqNum();
+                   String ackMsg = "ACK" + o.getSeqNum();//TODO:need agreement on this message
                     if (o.getSeqNum() >= this.expectingSeq && !this.deliverQueue.contains(o.getSeqNum())) {
                         this.deliverQueue.add(o);
                         System.out.println("Put into deliverQueue " + o.getSeqNum());
                         while (!this.deliverQueue.isEmpty() && this.deliverQueue.peek().getSeqNum() == this.expectingSeq) {
                             JsonObject task = this.deliverQueue.poll();
-                            this.taskQueue.add(task);
-                            this.backupQueue.add(task);
+                            if(task.getRequest() == Requests.RestartServer){
+                                restartServer();
+                            }
+                            else if (task.getRequest() == Requests.FixServer){
+                                cs.fixBug();
+
+                            }
+                            else {
+                                this.taskQueue.add(task);
+                                this.backupQueue.add(task);
+
+                            }
                             this.expectingSeq++;
                             System.out.println("Expecting " + this.expectingSeq);
                         }
@@ -87,10 +91,9 @@ public class ReplicaManager {
                         System.out.println("Discard " + o.getSeqNum());
                     }
 
-                }
-                if (ackMsg != null) {
-                    ack(ackMsg, request.getAddress(), request.getPort());
-                }
+
+                ack(ackMsg, request.getAddress(), request.getPort());
+
 
             } catch (SocketTimeoutException e) {
                 continue;

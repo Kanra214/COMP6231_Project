@@ -1,9 +1,8 @@
-package BinServer.src.Server;
+package Server;
 
-
-import BinServer.src.common.Log;
 import RMs.src.General.GeneralServer;
 import Common.JsonObject;
+import common.Log;
 
 
 public class Server implements GeneralServer {

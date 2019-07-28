@@ -1,9 +1,11 @@
-package BinServer.src.Server;
+package Server;
 
-import BinServer.src.common.CityToPort;
-import BinServer.src.common.Customer;
-import BinServer.src.common.Event;
+
 import com.sun.net.httpserver.Authenticator.Success;
+import common.CityToPort;
+import common.Customer;
+import common.Event;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -18,9 +20,9 @@ public class EventService {
        this.branchName = branchName;
        this.EventSchedule = new HashMap<>();
        this.Customers = new HashMap<>();
-       this.EventSchedule.put("Conferences", new HashMap<>());
-       this.EventSchedule.put("Seminars", new HashMap<>());
-       this.EventSchedule.put("TradeShows", new HashMap<>());
+       this.EventSchedule.put("Conference", new HashMap<>());
+       this.EventSchedule.put("Seminar", new HashMap<>());
+       this.EventSchedule.put("TradeShow", new HashMap<>());
    }
 
   public void setUdpHandler(UDPHandler udpHandler) {

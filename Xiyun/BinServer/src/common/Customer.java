@@ -1,4 +1,4 @@
-package BinServer.src.common;
+package common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ public class Customer {
   public Customer(String customerID) {
     this.bookedEvent = new HashMap<>();
     this.cityBelongTo = customerID.substring(0,3);
-    bookedEvent.put("Conferences", new ArrayList<>());
-    bookedEvent.put("Seminars", new ArrayList<>());
-    bookedEvent.put("TradeShows", new ArrayList<>());
+    bookedEvent.put("Conference", new ArrayList<>());
+    bookedEvent.put("Seminar", new ArrayList<>());
+    bookedEvent.put("TradeShow", new ArrayList<>());
   }
 
 //True if has this event

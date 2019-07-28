@@ -1,4 +1,4 @@
-package BinServer.src.common;
+package common;
 
 import java.util.HashMap;
 import java.util.Map;

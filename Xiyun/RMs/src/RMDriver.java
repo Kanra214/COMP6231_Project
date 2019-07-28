@@ -10,9 +10,20 @@ public class RMDriver {
         ReplicaManager xiyun1 = new ReplicaManager(RMID.Xiyun1);
         ReplicaManager xiyun2 = new ReplicaManager(RMID.Xiyun2);
         ReplicaManager bin = new ReplicaManager(RMID.BinServer);
-        xiyun1.start();
-        xiyun2.start();
-        bin.start();
+        new Thread(new RMStarter(xiyun1)).start();
+        new Thread(new RMStarter(xiyun2)).start();
+        new Thread(new RMStarter(bin)).start();
 
+    }
+    static class RMStarter implements Runnable{
+        private ReplicaManager r;
+        RMStarter(ReplicaManager r){
+            this.r = r;
+        }
+
+        @Override
+        public void run() {
+            r.start();
+        }
     }
 }

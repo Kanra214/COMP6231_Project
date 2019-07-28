@@ -1,7 +1,4 @@
 package RMs.src;
-
-import BinServer.src.Server.Server;
-import BinServer.src.common.CityToPort;
 import Common.JsonObject;
 import RMs.src.General.GeneralServer;
 import RMs.src.RMID;
@@ -9,6 +6,8 @@ import Servers.Branch;
 import Servers.Branch2;
 import Servers.XiyunServer;
 import Servers.XiyunServer2;
+import common.CityToPort;
+import Server.Server;
 
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;

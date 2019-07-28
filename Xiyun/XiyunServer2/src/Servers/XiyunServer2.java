@@ -21,11 +21,11 @@ public class XiyunServer2 implements GeneralServer {
     private DatagramSocket socketReply;
     private DatagramSocket socketSend;
     private HashMap<String, Client> clientList;
-    private boolean hasBug = false;
+    private boolean hasBug = false;//
 
     public XiyunServer2(Branch2 b){
         branch = b;
-        workingDir = System.getProperty("user.dir") + "/" + branch;
+        workingDir = System.getProperty("user.dir") + "/Xiyun/XiyunServer2/" + branch;
         File dirFile = new File(workingDir);
         dirFile.mkdirs();
 
@@ -329,7 +329,7 @@ public class XiyunServer2 implements GeneralServer {
         o.setRequest(GetBookingSchedule);
         Branch2 clientBranch = Branch2.getBranchFromString(cid.substring(0,3));
 
-        if(!mid.equals("") && mid != null){
+        if(mid != null && !mid.equals("")){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
@@ -528,7 +528,7 @@ public class XiyunServer2 implements GeneralServer {
         o.setEventType(eventTypeString);
         o.setRequest(CancelEvent);
 
-        if(!manId.equals("") && manId != null){
+        if(manId != null && !manId.equals("")){
             if(clientList.get(manId) == null){
                 createClient(manId);
             }
@@ -595,7 +595,7 @@ public class XiyunServer2 implements GeneralServer {
         o.setRequest(SwapEvent);
         o.setOldEventId(oeid);
         o.setOldEventType(oet);
-        if(!mid.equals("") && mid != null){
+        if(mid != null && !mid.equals("")){
             if(clientList.get(mid) == null){
                 createClient(mid);
             }
@@ -711,7 +711,7 @@ public class XiyunServer2 implements GeneralServer {
         o.setEventId(eventId);
         o.setEventType(eventTypeString);
         o.setRequest(BookEvent);
-        if(!manId.equals("") && manId != null){
+        if(manId != null && manId.equals("")){
             createClient("manId");
         }
 

@@ -1,7 +1,8 @@
-package BinServer.src.common;
+package common;
 
 import java.io.IOException;
 
+import java.util.Properties;
 import java.util.logging.*;
 
 public class Log {
@@ -10,11 +11,14 @@ public class Log {
         this.LOGGER = Logger.getLogger(loggerName.toUpperCase());
         Handler fileHandler = null;
         Formatter simpleFormatter;
+        String dir = System.getProperty("user.dir") + "/Xiyun/BinServer/log";
         try {
             if (loggerName.matches("\\w*(server)")) {
-                fileHandler = new FileHandler("./src/log/server/" + loggerName.toLowerCase() + ".log");
+
+                fileHandler = new FileHandler(dir + "/server/" + loggerName.toLowerCase() + ".log");
+
             } else if (loggerName.matches("\\w*(client)")) {
-                fileHandler = new FileHandler("./src/log/client/" + loggerName.toLowerCase() + ".log");
+                fileHandler = new FileHandler(dir + "/client/" + loggerName.toLowerCase() + ".log");
             }
 
         } catch (IOException e) {

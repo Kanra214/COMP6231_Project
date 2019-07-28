@@ -191,6 +191,32 @@ public class Test{
         o.setSeqNum(24);
         send(o);
 
+        //9
+        System.out.println("-------------------test" + i++ + "-------------------");
+        o = new JsonObject();
+        o.setRequest(FixServer);
+        o.setSeqNum(25);
+        send(o);
+
+        //10
+        System.out.println("-------------------test" + i++ + "-------------------");
+        o.setClientId("MTLM9000");
+        o.setRequest(AddEvent);
+        o.setEventId("MTLA090719");
+        o.setEventType("Conference");
+        o.setCapacity(2);
+        o.setSeqNum(26);
+        send(o);
+        //11
+        System.out.println("-------------------test" + i++ + "-------------------");
+        o = new JsonObject();
+        o.setRequest(RestartServer);
+        o.setSeqNum(27);
+        send(o);
+
+
+
+
 
 //        //9
 //        System.out.println("-------------------test" + i++ + "-------------------");
@@ -220,13 +246,22 @@ public class Test{
 //        getResp(tempHandler.listEventAvailability(tempId, "TradeShow"));
     }
     private static void send(JsonObject o){
+        send(o, true, null);
+    }
+    private static void send(JsonObject o, boolean toAll, RMID toRmid){
         try {
             o.setSourcePort(receivePort);
             o.setSourceIp("127.0.0.1");
             byte[] msgBytes = (o.objectToString()).getBytes();
             InetAddress host = InetAddress.getByName("localhost");
-            for (RMID rmid : RMID.values()) {
-                DatagramPacket ackDp = new DatagramPacket(msgBytes, msgBytes.length, host, rmid.getListeningPort());
+            if(toAll) {
+                for (RMID rmid : RMID.values()) {
+                    DatagramPacket ackDp = new DatagramPacket(msgBytes, msgBytes.length, host, rmid.getListeningPort());
+                    sendSocket.send(ackDp);
+                }
+            }
+            else{
+                DatagramPacket ackDp = new DatagramPacket(msgBytes, msgBytes.length, host, toRmid.getListeningPort());
                 sendSocket.send(ackDp);
             }
         } catch (IOException e) {

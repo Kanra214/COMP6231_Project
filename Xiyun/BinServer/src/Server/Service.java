@@ -1,8 +1,5 @@
-package BinServer.src.Server;
-
-import BinServer.src.common.Log;
-
-
+package Server;
+import common.Log;
 
 
 public class Service {
