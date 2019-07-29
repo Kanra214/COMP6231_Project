@@ -21,8 +21,13 @@ public class EventRecords {
         }
         else{
             if(hashMap.get(et).get(eid).getCapacity() != capacity){
-                hashMap.get(et).get(eid).setCapacity(capacity);
-                return "300";
+                if(hashMap.get(et).get(eid).getScheduled() > capacity) {
+                    return "400";
+                }
+                else{
+                    hashMap.get(et).get(eid).setCapacity(capacity);
+                    return "300";
+                }
             }
             else{
                 return "403";

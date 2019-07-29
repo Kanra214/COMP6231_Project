@@ -62,17 +62,26 @@ public class ReplicaManager {
                 String ackMsg = null;
                 //TODO:ack back, need to agree on port to send ack
 
-                if (msg.equals("Restart")) {//TODO:need agreement on this message
-                    restartServer();
-                    ackMsg = "ACKRestart";
+                if (msg.contains("ServerCrash")) {//TODO:need agreement on this message
+                    if((msg.charAt(0) == '1' && this.rmid == RMID.Xiyun1)
+                    || (msg.charAt(0) == '2' && this.rmid == RMID.Xiyun2)
+                    || (msg.charAt(0) == '3' && this.rmid == RMID.BinServer)) {
+                        restartServer();
+                        ackMsg = "ACK ServerCrash";
+                    }
 
-                } else if (msg.equals("Fix bug")) {//TODO:need agreement on this message
-                    cs.fixBug();
-                    ackMsg = "ACKFixBug";
+                } else if (msg.contains("SoftWareFailure")) {//TODO:need agreement on this message
+                    if((msg.charAt(0) == '1' && this.rmid == RMID.Xiyun1)
+                            || (msg.charAt(0) == '2' && this.rmid == RMID.Xiyun2)
+                            || (msg.charAt(0) == '3' && this.rmid == RMID.BinServer)) {
+                        cs.fixBug();
+                        ackMsg = "ACK SoftWareFailure";
+                    }
+
 
                 } else {
                     JsonObject o = JsonObject.stringToObject(msg);
-                    ackMsg = "ACK" + o.getSeqNum();
+                    ackMsg = "ACK " + o.getSeqNum();
                     if (o.getSeqNum() >= this.expectingSeq && !this.deliverQueue.contains(o.getSeqNum())) {
                         this.deliverQueue.add(o);
                         System.out.println("Put into deliverQueue " + o.getSeqNum());
