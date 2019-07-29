@@ -423,6 +423,8 @@ public class XiyunServer2 implements GeneralServer {
             case "300":
                 o.setResponse("The event has been added already, the capcity is updated");
                 break;
+            case "400":
+                o.setResponse("You are setting a capacity less than scheduled number, first remove people from this event.");
             default:
                 return null;
 

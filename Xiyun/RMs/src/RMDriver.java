@@ -5,7 +5,7 @@ import RMs.src.ReplicaManager;
 
 import java.net.SocketException;
 
-public class RMDriver {
+public class RMDriver {//TODO:split this to 3 hosts, figure out ips and give them to sequencer and FE
     public static void main(String[] args) throws SocketException {
         ReplicaManager xiyun1 = new ReplicaManager(RMID.Xiyun1);
         ReplicaManager xiyun2 = new ReplicaManager(RMID.Xiyun2);

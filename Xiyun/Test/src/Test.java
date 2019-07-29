@@ -192,27 +192,27 @@ public class Test{
         send(o);
 
         //9
-        System.out.println("-------------------test" + i++ + "-------------------");
-        o = new JsonObject();
-        o.setRequest(FixServer);
-        o.setSeqNum(25);
-        send(o);
-
-        //10
-        System.out.println("-------------------test" + i++ + "-------------------");
-        o.setClientId("MTLM9000");
-        o.setRequest(AddEvent);
-        o.setEventId("MTLA090719");
-        o.setEventType("Conference");
-        o.setCapacity(2);
-        o.setSeqNum(26);
-        send(o);
-        //11
-        System.out.println("-------------------test" + i++ + "-------------------");
-        o = new JsonObject();
-        o.setRequest(RestartServer);
-        o.setSeqNum(27);
-        send(o);
+//        System.out.println("-------------------test" + i++ + "-------------------");
+//        o = new JsonObject();
+//        o.setRequest(FixServer);
+//        o.setSeqNum(25);
+//        send(o);
+//
+//        //10
+//        System.out.println("-------------------test" + i++ + "-------------------");
+//        o.setClientId("MTLM9000");
+//        o.setRequest(AddEvent);
+//        o.setEventId("MTLA090719");
+//        o.setEventType("Conference");
+//        o.setCapacity(2);
+//        o.setSeqNum(26);
+//        send(o);
+//        //11
+//        System.out.println("-------------------test" + i++ + "-------------------");
+//        o = new JsonObject();
+//        o.setRequest(RestartServer);
+//        o.setSeqNum(27);
+//        send(o);
 
 
 
