@@ -394,7 +394,7 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
         try {
             DatagramSocket socket = new DatagramSocket();
             byte[] data = msg.getBytes();
-//            multicastCrashMsg(socket,data);
+            multicastCrashMsg(socket,data);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -432,6 +432,22 @@ public class FrontEndImpl extends FrontEndCorbaPOA{
 
         socket.close();
     }
+
+    private DatagramPacket packet(String rmAddress, byte[] data, int replica) throws UnknownHostException {
+        InetAddress address = InetAddress.getByName(rmAddress);
+        return new DatagramPacket(data,0, data.length, address, replica);
+    }
+
+    private void multicastCrashMsg(DatagramSocket socket, byte[] data){
+        try {
+            socket.send(packet(AddressInfo.ADDRESS_INFO.RM1address, data,Replica.REPLICA.replica1));
+            socket.send(packet(AddressInfo.ADDRESS_INFO.RM2address, data,Replica.REPLICA.replica2 ));
+            socket.send(packet(AddressInfo.ADDRESS_INFO.RM3address, data,Replica.REPLICA.replica3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private int registerListener(DatagramSocket socket, HashMap<String, JsonObject> resultSet) {
         JsonObject o;
         byte[] data = new byte[1024];
