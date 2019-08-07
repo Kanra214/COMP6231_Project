@@ -23,7 +23,7 @@ public class JsonObject {//only use public methods please
 
     private String seqNumString;
     private String approved;
-    private String getApproved() {
+    public String getApproved() {
         return approved;
     }
 

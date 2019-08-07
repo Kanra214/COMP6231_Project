@@ -45,13 +45,13 @@ public class Sequencer {
 
             byte[] data = sequencer_data.getBytes();
 
-            InetAddress address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM1address);
+            InetAddress address = InetAddress.getByName("172.31.79.185");
             DatagramPacket packet = new DatagramPacket(data, 0, data.length, address, 6001);
             socket.send(packet);
-            address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM2address);
+//            address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM2address);
             packet = new DatagramPacket(data, 0, data.length, address, 6002);
             socket.send(packet);
-            address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM3address);
+//            address = InetAddress.getByName(AddressInfo.ADDRESS_INFO.RM3address);
             packet = new DatagramPacket(data, 0, data.length, address, 6003);
             socket.send(packet);
 
